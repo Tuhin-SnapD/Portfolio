@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Project Placeholder Images</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .instructions {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Project Placeholder Image Generator</h1>
+        
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <ol>
+                <li>Click "Generate All Images" to create placeholder images</li>
+                <li>Right-click on each image and "Save image as..."</li>
+                <li>Save them in the <code>public/projects/</code> directory with the exact names shown</li>
+                <li>Replace these with actual project screenshots when available</li>
+            </ol>
+        </div>
+
+        <button onclick="generateAllImages()">Generate All Images</button>
+        <button onclick="downloadAllImages()">Download All Images</button>
+
+        <div class="preview" id="preview"></div>
+    </div>
+
+    <script>
+        const projects = [
+            'pricepilot-landing.png',
+            'newsmelt-landing.png', 
+            'todos-list-landing.png',
+            'restaurant-app-landing.png',
+            'trading-simulator-landing.png',
+            'text-summarization-landing.png'
+        ];
+
+        function createPlaceholderImage(filename) {
+            const width = 400;
+            const height = 250;
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            canvas.id = filename;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Extract project name from filename
+            const projectName = filename.replace('-landing.png', '').replace(/-/g, ' ');
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, width, height);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+            
+            // Add some geometric shapes for visual interest
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.beginPath();
+            ctx.arc(width * 0.8, height * 0.2, 50, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(width * 0.2, height * 0.8, 30, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Add project name
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Split long project names
+            const words = projectName.split(' ');
+            const lines = [];
+            let currentLine = '';
+            
+            for (const word of words) {
+                if (currentLine.length + word.length < 20) {
+                    currentLine += (currentLine ? ' ' : '') + word;
+                } else {
+                    if (currentLine) lines.push(currentLine);
+                    currentLine = word;
+                }
+            }
+            if (currentLine) lines.push(currentLine);
+            
+            // Draw text lines
+            const lineHeight = 30;
+            const startY = height / 2 - (lines.length - 1) * lineHeight / 2;
+            
+            lines.forEach((line, index) => {
+                ctx.fillText(line, width / 2, startY + index * lineHeight);
+            });
+            
+            // Add subtitle
+            ctx.font = '14px Arial';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.fillText('Project Screenshot', width / 2, height - 40);
+            
+            return canvas;
+        }
+
+        function generateAllImages() {
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+            
+            projects.forEach(filename => {
+                const canvas = createPlaceholderImage(filename);
+                const container = document.createElement('div');
+                container.style.textAlign = 'center';
+                
+                const label = document.createElement('p');
+                label.textContent = filename;
+                label.style.margin = '10px 0 5px 0';
+                label.style.fontSize = '12px';
+                label.style.color = '#666';
+                
+                container.appendChild(label);
+                container.appendChild(canvas);
+                preview.appendChild(container);
+            });
+        }
+
+        function downloadAllImages() {
+            projects.forEach(filename => {
+                const canvas = document.getElementById(filename);
+                if (canvas) {
+                    const link = document.createElement('a');
+                    link.download = filename;
+                    link.href = canvas.toDataURL();
+                    link.click();
+                }
+            });
+        }
+
+        // Generate images on page load
+        window.onload = generateAllImages;
+    </script>
+</body>
+</html> 
