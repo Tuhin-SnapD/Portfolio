@@ -14,6 +14,18 @@ import { Label } from '@/components/ui/label'
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 
+// HackerRank icon component
+const HackerRankIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M12 0c1.285 0 9.75.119 11.479.149.378.006.521.186.521 1.351v20.999c0 1.166-.143 1.345-.521 1.351C21.75 23.881 13.285 24 12 24s-9.75-.119-11.479-.149C.143 23.845 0 23.665 0 22.5V1.5C0 .334.143 .155.521.149C2.25.119 10.715 0 12 0zm5.098 8.267c-.129-.018-.195-.018-.195-.018s-.066 0-.195.018c-.129.018-.195.129-.195.195v7.076c0 .066.066.129.195.195.129.018.195.018.195.018s.066 0 .195-.018c.129-.066.195-.129.195-.195V8.462c0-.066-.066-.177-.195-.195zM7.902 8.267c-.129-.018-.195-.018-.195-.018s-.066 0-.195.018c-.129.018-.195.129-.195.195v7.076c0 .066.066.129.195.195.129.018.195.018.195.018s.066 0 .195-.018c.129-.066.195-.129.195-.195V8.462c0-.066-.066-.177-.195-.195z"/>
+  </svg>
+)
+
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
@@ -38,7 +50,7 @@ const contactInfo = [
   },
   {
     icon: MapPin,
-    title: 'Portfolio',
+    title: 'Portfolio-Simplified',
     value: 'tuhin-dev.lovable.app',
     link: 'https://tuhin-dev.lovable.app/'
   }
@@ -58,7 +70,7 @@ const socialLinks = [
     color: 'hover:text-blue-600'
   },
   {
-    icon: Linkedin,
+    icon: HackerRankIcon,
     name: 'HackerRank',
     url: 'https://www.hackerrank.com/profile/tuhinchakrabart1',
     color: 'hover:text-green-600'

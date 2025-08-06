@@ -10,6 +10,7 @@ import { Footer } from '@/components/footer'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://tuhin-dev.lovable.app'),
   title: {
     default: 'Tuhin Chakrabarty - Full-Stack Developer | AI/ML Enthusiast',
     template: '%s | Tuhin Chakrabarty'

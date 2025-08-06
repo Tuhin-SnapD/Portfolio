@@ -55,7 +55,7 @@ const skillCategories = [
       { name: 'Transformers', level: 85, icon: Cloud },
       { name: 'BERT', level: 80, icon: Star },
       { name: 'OpenCV', level: 75, icon: Circle },
-      { name: 'Deep Learning', level: 85, icon: Star },
+      // { name: 'Deep Learning', level: 85, icon: Star },
     ]
   },
   {
@@ -68,7 +68,7 @@ const skillCategories = [
       { name: 'MySQL', level: 80, icon: Cloud },
       { name: 'Git', level: 90, icon: Cloud },
       { name: 'Trading Systems', level: 85, icon: Zap },
-      { name: 'Tableau', level: 75, icon: Palette },
+      // { name: 'Tableau', level: 75, icon: Palette },
     ]
   }
 ]
@@ -205,10 +205,10 @@ export function SkillsSection() {
               'BERT', 'Transformers', 'scikit-learn', 'pandas', 'NumPy',
               'MongoDB', 'MySQL', 'SQLite', 'Redis', 'Socket.IO',
               'Express.js', 'JWT', 'Docker', 'AWS', 'Machine Learning',
-              'LLaMA', 'NetworkX', 'D3.js', 'yfinance', 'TextRank',
+              'LLaMA', 'NetworkX', 'TextRank',
               'BART', 'OpenAI API', 'Tailwind CSS', 'Bootstrap',
               'C++10', 'Tornado', 'OpenCV', 'CNNs', 'RNNs', 'LSTMs',
-              'Computer Vision', 'Deep Learning', 'Tableau', 'Power BI',
+              'Computer Vision',
               'Excel VBA', 'Power Query', 'Trading Systems', 'Financial APIs',
               'NLU', 'Automation', 'QA Testing', 'Raspberry Pi'
             ].map((skill, index) => (
