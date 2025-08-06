@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useForm } from 'react-hook-form'
@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send } from 'lucide-react'
 import { toast } from 'react-hot-toast'
+import { initEmailJS, sendEmail } from '@/lib/emailjs'
 
 // HackerRank icon component
 const HackerRankIcon = ({ className }: { className?: string }) => (
@@ -94,16 +95,25 @@ export function ContactSection() {
     resolver: zodResolver(contactSchema)
   })
 
+  // Initialize EmailJS on component mount
+  useEffect(() => {
+    initEmailJS()
+  }, [])
+
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      const result = await sendEmail(data)
       
-      toast.success('Message sent successfully! I\'ll get back to you soon.')
-      reset()
+      if (result.success) {
+        toast.success('Message sent successfully! I\'ll get back to you soon.')
+        reset()
+      } else {
+        toast.error('Failed to send message. Please try again.')
+      }
     } catch (error) {
+      console.error('Form submission error:', error)
       toast.error('Failed to send message. Please try again.')
     } finally {
       setIsSubmitting(false)

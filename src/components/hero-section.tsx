@@ -70,26 +70,6 @@ export function HeroSection() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center">
-          {/* Profile Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="mb-8"
-          >
-            <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
-              <div className="w-full h-full rounded-full bg-background overflow-hidden">
-                <Image 
-                  src="https://avatars.githubusercontent.com/u/67930437?s=400&u=4540d1a397edad58b1fe72e3be0366811295a208&v=4" 
-                  alt="Tuhin Chakrabarty" 
-                  width={128}
-                  height={128}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </motion.div>
-
           {/* Main content */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
