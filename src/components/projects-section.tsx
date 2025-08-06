@@ -163,7 +163,7 @@ export function ProjectsSection() {
               >
                 <Card className="glass-effect h-full overflow-hidden hover:shadow-xl transition-all duration-300">
                   {/* Project Image */}
-                  <div className="relative overflow-hidden">
+                  <div className="relative overflow-hidden" data-project={project.title}>
                     <Image
                       src={project.image}
                       alt={project.title}
@@ -172,14 +172,18 @@ export function ProjectsSection() {
                       className="w-full h-48 object-cover"
                       onError={() => {
                         // Fallback to placeholder if image fails to load
-                        const imgElement = document.querySelector(`[alt="${project.title}"]`) as HTMLImageElement;
-                        if (imgElement) {
-                          imgElement.style.display = 'none';
-                          imgElement.nextElementSibling?.classList.remove('hidden');
+                        const imageContainer = document.querySelector(`[data-project="${project.title}"]`);
+                        if (imageContainer) {
+                          const imageElement = imageContainer.querySelector('img');
+                          const placeholderElement = imageContainer.querySelector('.placeholder-fallback');
+                          if (imageElement && placeholderElement) {
+                            imageElement.style.display = 'none';
+                            placeholderElement.classList.remove('hidden');
+                          }
                         }
                       }}
                     />
-                    <div className="w-full h-48 bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center hidden">
+                    <div className="w-full h-48 bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center hidden placeholder-fallback">
                       <div className="text-center">
                         <div className="text-2xl font-bold text-muted-foreground mb-2">
                           {project.title.split(' ').slice(0, 2).join(' ')}

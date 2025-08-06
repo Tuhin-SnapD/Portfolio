@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
+import Image from 'next/image'
 import { ArrowDown, Download, Mail } from 'lucide-react'
 
 export function HeroSection() {
@@ -78,9 +79,11 @@ export function HeroSection() {
           >
             <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
               <div className="w-full h-full rounded-full bg-background overflow-hidden">
-                <img 
+                <Image 
                   src="https://avatars.githubusercontent.com/u/67930437?s=400&u=4540d1a397edad58b1fe72e3be0366811295a208&v=4" 
                   alt="Tuhin Chakrabarty" 
+                  width={128}
+                  height={128}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -177,7 +180,7 @@ export function HeroSection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2, duration: 0.6 }}
-              className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+              className="absolute -bottom-2 left-1/2 transform -translate-x-1/2"
             >
               <motion.div
                 animate={{ y: [0, 10, 0] }}

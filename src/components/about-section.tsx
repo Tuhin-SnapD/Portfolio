@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import Image from 'next/image'
 import { User, Code, Rocket, Heart } from 'lucide-react'
 
 const stats = [
@@ -56,9 +57,11 @@ export function AboutSection() {
             <div className="relative">
               <div className="w-80 h-80 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
                 <div className="w-full h-full rounded-full bg-background overflow-hidden">
-                  <img 
+                  <Image 
                     src="https://avatars.githubusercontent.com/u/67930437?s=400&u=4540d1a397edad58b1fe72e3be0366811295a208&v=4" 
                     alt="Tuhin Chakrabarty" 
+                    width={320}
+                    height={320}
                     className="w-full h-full object-cover"
                   />
                 </div>
