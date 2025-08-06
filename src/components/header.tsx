@@ -62,7 +62,7 @@ export function Header() {
           : 'bg-transparent'
       }`}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 overflow-x-hidden">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
@@ -128,7 +128,7 @@ export function Header() {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden"
             >
-              <div className="px-2 pt-2 pb-3 space-y-1 glass-effect rounded-lg mt-2">
+              <div className="px-2 pt-2 pb-3 space-y-1 glass-effect rounded-lg mt-2 max-w-full">
                 {navigation.map((item) => (
                   <motion.button
                     key={item.name}

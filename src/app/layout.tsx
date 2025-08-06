@@ -74,14 +74,14 @@ export default function RootLayout({
           src="https://plausible.io/js/script.js"
         />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} antialiased overflow-x-hidden`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <div className="relative min-h-screen bg-background">
+          <div className="relative min-h-screen bg-background overflow-x-hidden">
             <Header />
             <main className="flex-1">
               {children}

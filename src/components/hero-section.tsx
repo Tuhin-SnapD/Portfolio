@@ -52,7 +52,7 @@ export function HeroSection() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute top-40 right-20 w-32 h-32 bg-purple-500/10 rounded-full blur-xl"
+          className="absolute top-40 right-4 md:right-20 w-16 md:w-32 h-16 md:h-32 bg-purple-500/10 rounded-full blur-xl"
         />
         <motion.div
           animate={{
@@ -92,7 +92,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6"
+              className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-6"
             >
               <span className="gradient-text">Tuhin Chakrabarty</span>
             </motion.h1>
@@ -102,7 +102,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.6 }}
-              className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground mb-8"
+              className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-semibold text-foreground mb-8 px-4"
             >
               Full-Stack Developer | AI/ML Engineer | Software Engineer at Bank of America
             </motion.h2>
@@ -112,7 +112,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6 }}
-              className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed px-4"
             >
               Software Engineer at Bank of America, passionate about modern web technologies, AI/ML, and scalable applications. 
               From basic Python projects to advanced AI-driven solutions like PricePilot and NewsMelt, demonstrating continuous growth and innovation in full-stack development and machine learning.
@@ -123,12 +123,12 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 px-4"
             >
               <Button
                 onClick={scrollToContact}
                 size="lg"
-                className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 text-lg font-semibold"
+                className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 sm:px-8 py-3 text-base sm:text-lg font-semibold w-full sm:w-auto"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Get In Touch
@@ -146,7 +146,7 @@ export function HeroSection() {
                 onClick={downloadResume}
                 variant="outline"
                 size="lg"
-                className="group px-8 py-3 text-lg font-semibold border-2 hover:bg-accent"
+                className="group px-6 sm:px-8 py-3 text-base sm:text-lg font-semibold border-2 hover:bg-accent w-full sm:w-auto"
               >
                 <span className="flex items-center gap-2">
                   Download Resume
@@ -181,13 +181,13 @@ export function HeroSection() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.4, duration: 0.8 }}
-          className="absolute top-1/4 right-10 w-64 h-40 glass-effect rounded-2xl"
+          className="absolute top-1/4 right-2 md:right-10 w-32 md:w-64 h-20 md:h-40 glass-effect rounded-2xl hidden sm:block"
         />
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.6, duration: 0.8 }}
-          className="absolute bottom-1/4 left-10 w-48 h-32 glass-effect rounded-2xl"
+          className="absolute bottom-1/4 left-2 md:left-10 w-24 md:w-48 h-16 md:h-32 glass-effect rounded-2xl hidden sm:block"
         />
       </div>
     </section>
