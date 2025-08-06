@@ -10,7 +10,7 @@ import { LoadingSpinner } from '@/components/ui/loading-spinner'
 export default function HomePage() {
   return (
     <div className="relative min-h-screen">
-      {/* 3D Background */}
+      {/* 3D Background - only on desktop */}
       <Suspense fallback={<LoadingSpinner />}>
         <Background3D />
       </Suspense>
