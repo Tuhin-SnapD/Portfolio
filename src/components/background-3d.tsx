@@ -12,7 +12,7 @@ function usePerformanceMode() {
   useEffect(() => {
     // Check for mobile devices or low-end GPUs
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4
+    const isLowEnd = !!navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4
     
     setIsLowPerformance(isMobile || isLowEnd)
   }, [])
@@ -33,7 +33,7 @@ function AnimatedSphere({ isLowPerformance }: { isLowPerformance: boolean }) {
   })
 
   // Reduce polygon count for better performance
-  const segments = isLowPerformance ? [1, 32, 32] : [1, 64, 64]
+  const segments: [number, number, number] = isLowPerformance ? [1, 32, 32] : [1, 64, 64]
 
   return (
     <Sphere ref={meshRef} args={segments} scale={2}>
@@ -89,14 +89,35 @@ function FloatingBoxes({ isLowPerformance }: { isLowPerformance: boolean }) {
 export function Background3D() {
   const isLowPerformance = usePerformanceMode()
   const [isVisible, setIsVisible] = useState(false)
+  const [reducedMotion, setReducedMotion] = useState(false)
+  const [frameloop, setFrameloop] = useState<'always' | 'never'>('always')
+  const [dpr, setDpr] = useState(1)
 
   useEffect(() => {
-    // Delay loading to improve initial page load
+    // Respect the user's motion preference - skip the 3D scene entirely.
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(motionQuery.matches)
+    const handleMotionChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches)
+    motionQuery.addEventListener('change', handleMotionChange)
+
+    // Cap the pixel ratio so integrated GPUs are not asked to render 3x pixels.
+    setDpr(Math.min(window.devicePixelRatio || 1, 1.5))
+
+    // Stop rendering while the tab is in the background to save CPU and battery.
+    const handleVisibility = () => setFrameloop(document.hidden ? 'never' : 'always')
+    document.addEventListener('visibilitychange', handleVisibility)
+
+    // Defer the scene so it never competes with first paint.
     const timer = setTimeout(() => setIsVisible(true), 100)
-    return () => clearTimeout(timer)
+
+    return () => {
+      motionQuery.removeEventListener('change', handleMotionChange)
+      document.removeEventListener('visibilitychange', handleVisibility)
+      clearTimeout(timer)
+    }
   }, [])
 
-  if (!isVisible) {
+  if (!isVisible || reducedMotion) {
     return null
   }
 
@@ -105,12 +126,13 @@ export function Background3D() {
       <Canvas
         camera={{ position: [0, 0, 5], fov: 75 }}
         style={{ background: 'transparent' }}
-        gl={{ 
+        frameloop={frameloop}
+        gl={{
           antialias: !isLowPerformance,
           powerPreference: "high-performance",
-          alpha: true 
+          alpha: true
         }}
-        dpr={isLowPerformance ? 1 : window.devicePixelRatio}
+        dpr={isLowPerformance ? 1 : dpr}
       >
         <ambientLight intensity={0.4} />
         <pointLight position={[10, 10, 10]} intensity={0.8} />

@@ -8,17 +8,18 @@ import Image from 'next/image'
 import { User, Code, Rocket, Heart } from 'lucide-react'
 
 const stats = [
-  { label: 'Years Experience', value: '2+', icon: User },
-  { label: 'Projects Completed', value: '30+', icon: Code },
-  { label: 'Technologies', value: '20+', icon: Rocket },
-  { label: 'GitHub Stars', value: '150+', icon: Heart },
+  { label: 'Years Experience', value: '3+', icon: User },
+  { label: 'Global Gold Awards', value: '2x', icon: Heart },
+  { label: 'Technologies', value: '30+', icon: Rocket },
+  { label: 'Companies', value: '3', icon: Code },
 ]
 
 const interests = [
-  'Web Development', 'AI/ML Engineering', 'Full-Stack Development', 'Cloud Computing',
-  'Machine Learning', 'Open Source', 'NLP', 'DevOps', 'Trading Systems', 'Data Science',
-  'Natural Language Processing', 'Deep Learning', 'API Development', 'System Architecture',
-  'Computer Vision', 'Financial Technology', 'Automation', 'QA Testing', 'Data Analytics'
+  'Distributed Systems', 'Backend Engineering', 'API Design', 'Cloud-Native Development',
+  'Full-Stack Development', 'High-Level Design', 'Low-Level Design', 'Microservices',
+  'Event-Driven Architecture', 'FinTech', 'Data Engineering', 'DevOps',
+  'Observability', 'Automation', 'Testing & Code Review', 'Agile Delivery',
+  'Mentoring', 'Performance Engineering', 'Security', 'Scalability'
 ]
 
 export function AboutSection() {
@@ -41,7 +42,7 @@ export function AboutSection() {
             About <span className="gradient-text">Me</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            A passionate full-stack developer with a love for creating innovative solutions
+            Software engineer building scalable backend and full-stack systems
           </p>
         </motion.div>
 
@@ -58,16 +59,17 @@ export function AboutSection() {
               <div className="w-80 h-80 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
                 <div className="w-full h-full rounded-full bg-background overflow-hidden">
                   <Image 
-                    src="https://avatars.githubusercontent.com/u/67930437?s=400&u=4540d1a397edad58b1fe72e3be0366811295a208&v=4" 
+                    src="/tuhin-avatar.jpg" 
                     alt="Tuhin Chakrabarty" 
                     width={320}
                     height={320}
+                    sizes="320px"
                     className="w-full h-full object-cover"
                   />
                 </div>
               </div>
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-green-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg">2+</span>
+                <span className="text-white font-bold text-lg">3+</span>
               </div>
             </div>
 
@@ -101,14 +103,17 @@ export function AboutSection() {
                 Who I Am
               </h3>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                I&apos;m a passionate full-stack developer with expertise in modern web technologies, AI/ML, and scalable applications. 
-                Currently working as a Software Engineer 1B at Bank of America in Gandhinagar, Gujarat, India, where I engineer core backend services 
-                in C++10 and Python for the Apex/Martini Global Repo Trading Platform, enhancing global trade execution speed and stability.
+                I&apos;m a software engineer experienced in building scalable backend and full-stack systems.
+                Currently a Software Engineer 2 at PayU in Bengaluru, India, where I lead PRISM 2.0 — a secure,
+                multi-tenant financial intelligence platform for large-scale SMS ingestion and analysis, built on
+                encrypted data pipelines, isolated processing, and cloud-native deployments.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                My journey spans from basic Python projects to advanced AI-driven solutions and financial trading systems, demonstrating continuous growth 
-                and innovation in software development. I specialize in React, Angular, Node.js, Python, C++10, and cutting-edge AI/ML technologies including 
-                BERT, Transformers, PyTorch, and computer vision applications.
+                Before PayU, I spent over two years at Bank of America GIFT City, developing low-latency C++ and
+                Python services for the Apex/Martini Global Repo Trading Platform and designing Optimus, a
+                Python/Tornado support automation platform with RASA NLU. My toolkit spans Python, C++, JavaScript,
+                SQL, and Perl on the backend; React on the frontend; and AWS, Docker, Terraform, Kafka, and Jenkins
+                for delivery and operations.
               </p>
             </div>
 
@@ -117,10 +122,11 @@ export function AboutSection() {
                 What I Do
               </h3>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                I help businesses and individuals bring their ideas to life through custom web 
-                development solutions and AI-powered applications. From engineering high-performance trading systems and financial APIs 
-                to developing advanced NLP systems, computer vision applications, and machine learning models, I handle every aspect of the development process, 
-                ensuring high-quality, performant, and scalable applications that drive real business value and operational excellence.
+                I design and ship distributed, event-driven systems that stay fast and reliable under large transaction
+                and messaging workloads. That means API design, high-level and low-level design, encrypted multi-tenant
+                data flows, consent and audit lifecycles, and the observability and automation needed to run them in
+                production. I also build the full stack around them — React and TypeScript frontends on top of Django,
+                Flask, Tornado, and Node.js services, backed by PostgreSQL, DynamoDB, MySQL, Kafka, RabbitMQ, and SQS.
               </p>
             </div>
 
@@ -158,12 +164,12 @@ export function AboutSection() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Code className="w-5 h-5 text-primary" />
-                Development
+                Backend Engineering
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Full-stack development with modern frameworks and best practices.
+                REST APIs, microservices, and event-driven systems built with Python, C++, Django, Flask, and Tornado.
               </p>
             </CardContent>
           </Card>
@@ -172,12 +178,12 @@ export function AboutSection() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Rocket className="w-5 h-5 text-primary" />
-                Performance
+                Scale & Reliability
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Optimized applications for speed, scalability, and user experience.
+                Low-latency, fault-tolerant processing with observability, CI/CD, and cloud-native deployment on AWS.
               </p>
             </CardContent>
           </Card>
@@ -186,12 +192,12 @@ export function AboutSection() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Heart className="w-5 h-5 text-primary" />
-                Collaboration
+                Collaboration & Mentoring
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Strong communication skills and experience working in agile teams.
+                Agile delivery, code review, testing culture, and mentoring engineers across the team.
               </p>
             </CardContent>
           </Card>

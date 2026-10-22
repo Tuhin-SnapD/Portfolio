@@ -30,7 +30,7 @@ export function Header() {
       setScrolled(window.scrollY > 10)
     }
     
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -44,13 +44,26 @@ export function Header() {
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' })
       }
-    } else {
-      window.location.href = href
     }
     setMobileMenuOpen(false)
   }
 
-  if (!mounted) return null
+  /**
+   * Navigation renders as real <a href> links so crawlers can discover every page.
+   * Same-page anchors still scroll smoothly instead of reloading.
+   */
+  const handleNavClick = (event: React.MouseEvent, href: string) => {
+    setMobileMenuOpen(false)
+    if (!href.startsWith('/#')) return
+    const element = document.querySelector(href.substring(1))
+    if (!element) return
+    event.preventDefault()
+    scrollToSection(href)
+    window.history.replaceState(null, '', href)
+  }
+
+  // The header renders on the server too: showing nothing until mount made the whole
+  // navigation bar pop in after hydration. Only the theme icon waits for the client value.
 
   return (
     <motion.header
@@ -75,17 +88,16 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-8" aria-label="Primary">
             {navigation.map((item) => (
-              <motion.button
+              <Link
                 key={item.name}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => scrollToSection(item.href)}
+                href={item.href}
+                onClick={(event) => handleNavClick(event, item.href)}
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors"
               >
                 {item.name}
-              </motion.button>
+              </Link>
             ))}
           </nav>
 
@@ -97,7 +109,7 @@ export function Header() {
               onClick={toggleTheme}
               className="p-2 rounded-lg glass-effect hover:bg-accent/50 transition-colors"
             >
-              {theme === 'dark' ? (
+              {mounted && theme === 'dark' ? (
                 <Sun className="h-5 w-5" />
               ) : (
                 <Moon className="h-5 w-5" />
@@ -130,14 +142,14 @@ export function Header() {
             >
               <div className="px-2 pt-2 pb-3 space-y-1 glass-effect rounded-lg mt-2 max-w-full">
                 {navigation.map((item) => (
-                  <motion.button
+                  <Link
                     key={item.name}
-                    whileHover={{ x: 10 }}
-                    onClick={() => scrollToSection(item.href)}
+                    href={item.href}
+                    onClick={(event) => handleNavClick(event, item.href)}
                     className="block w-full text-left px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent/50 rounded-md transition-colors"
                   >
                     {item.name}
-                  </motion.button>
+                  </Link>
                 ))}
               </div>
             </motion.div>

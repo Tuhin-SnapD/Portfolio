@@ -5,45 +5,111 @@ import { useInView } from 'react-intersection-observer'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Download, Mail, MapPin, Calendar, Building, GraduationCap } from 'lucide-react'
+import {
+  Download,
+  Mail,
+  MapPin,
+  Calendar,
+  Building,
+  GraduationCap,
+  Briefcase,
+  FolderGit2,
+  Trophy,
+  Sparkles,
+  Award,
+  ExternalLink
+} from 'lucide-react'
+
+const summary =
+  "Software Engineer experienced in building scalable backend and full-stack systems using Python, C++, React, Django, Flask, and SQL. Skilled in API design, distributed systems, cloud development, automation, and production engineering, with a strong foundation in DSA, software design, testing, and delivery."
 
 const experience = [
   {
     id: 1,
-    title: "Software Engineer 1B",
-    company: "Bank of America",
-    location: "Gandhinagar, Gujarat, India",
-    period: "Jul 2023 - Present",
-    description: "Engineered core backend services in C++10 and Python for the Apex/Martini Global Repo Trading Platform, enhancing the speed and stability of global trade execution. Contributed to cross-border repo trade lifecycle logic, with code directly impacting revenue-generating desks across regions. Designed a Tornado-based API to expose live Martini data to Optimus (trader chatbot), and built a pipeline to integrate gmt_chatbot with LOB-specific natural language understanding (NLU), enabling smarter query handling and reducing reliance on licensed systems—resulting in significant operational cost savings. Automated regression testing workflows and UI, developing a React + Python framework, cutting QA time by 90% and streamlining release cycles.",
-    technologies: ["C++10", "Python", "React", "Tornado", "NLU", "Trading Systems", "Financial APIs", "Automation", "QA Testing"],
-    awards: ["Global Gold Recognition Award, Bank of America - Honored for delivering significant cost savings and driving operational excellence through the development of automation tools and trading platform enhancements."]
+    title: "Software Engineer 2",
+    company: "PayU",
+    location: "Bengaluru, India",
+    period: "Dec 2025 - Present",
+    highlights: [
+      "Led PRISM 2.0, architecting a secure, multi-tenant financial intelligence platform for large-scale SMS ingestion and analysis, with encrypted data pipelines, isolated processing, ML-driven workflows, and cloud-native deployments.",
+      "Led development of a regulatory-compliant, multi-tenant AA TSP consent platform User Journey, enabling automated credit and risk decisions through secure data-access workflows, consent lifecycle management, monitoring, and audit capabilities.",
+      "Owned the architecture and reliability of PRISM, designing distributed, event-driven systems for low-latency, fault-tolerant processing of large-scale transaction and messaging workloads, improving performance, resilience, automation, observability, and security."
+    ],
+    technologies: [
+      "Python", "Distributed Systems", "Event-Driven Architecture", "Multi-Tenancy",
+      "AWS", "Docker", "Terraform", "PostgreSQL", "Kafka", "Observability"
+    ]
   },
   {
     id: 2,
+    title: "Software Engineer 1",
+    company: "Bank of America",
+    location: "GIFT City, India",
+    period: "Jul 2023 - Nov 2025",
+    highlights: [
+      "Developed and supported low-latency C++ and Python services for the Apex/Martini Global Repo Trading Platform, supporting critical trading workflows and production stability.",
+      "Designed Optimus, a Python/Tornado support automation platform with RASA NLU, replacing licensed third-party solutions and streamlining operational workflows.",
+      "Built a React + Flask automated regression framework, reducing manual QA effort by approximately 90% and accelerating release validation."
+    ],
+    technologies: [
+      "C++", "Python", "React", "Flask", "Tornado", "NLU", "REST APIs",
+      "Trading Systems", "Automation", "Testing"
+    ],
+    awards: [
+      "2x Global Gold Recognition Award - recognized for automating regression and saving license costs with Optimus, bypassing the APEX login dependency."
+    ]
+  }
+]
+
+const earlierExperience = [
+  {
+    id: 3,
     title: "Student Intern",
     company: "Pantech ProEd Pvt Ltd",
     location: "India",
     period: "Jan 2022 - Jun 2023",
-    description: "Progressed from mastering Python fundamentals to architecting end-to-end AI solutions and data pipelines. Built robust machine-learning models including logistic regression for sales forecasting, SVM and Random Forest classifiers for digit and cancer detection, ensemble and regression techniques for price and trend predictions, and reinforcement-learning agents for web-ad optimization and an AI-powered Snake Game. Honed data-analytics expertise by automating complex Excel workflows (Power Query, VBA macros, pivot dashboards), querying SQL/NoSQL databases, crafting interactive Tableau and Power BI visualizations. Developed end-to-end chatbot development, real-time computer-vision applications (OpenCV-based detection, recognition, OCR, emotion analysis), deep-learning architectures (CNNs, transfer learning, RNNs/LSTMs) and edge-deployment on Raspberry Pi.",
-    technologies: ["Python", "Machine Learning", "OpenCV", "Deep Learning", "CNNs", "RNNs", "LSTMs", "Tableau", "Power BI", "SQL", "NoSQL", "Excel VBA", "Raspberry Pi", "Computer Vision", "NLP"]
+    description:
+      "Progressed from Python fundamentals to end-to-end AI solutions and data pipelines: machine-learning models (logistic regression, SVM, Random Forest, ensembles, reinforcement learning), data analytics with Excel automation, SQL/NoSQL, Tableau and Power BI, plus computer vision, deep learning, and edge deployment on Raspberry Pi.",
+    technologies: ["Python", "Machine Learning", "OpenCV", "Deep Learning", "Tableau", "Power BI", "SQL", "Raspberry Pi"]
   },
   {
-    id: 3,
+    id: 4,
     title: "Django Developer",
     company: "Able",
     location: "India",
     period: "Feb 2022 - Apr 2022",
-    description: "Completed comprehensive development of an advanced lead management web application leveraging Django, Python, Jinja and Tailwind CSS. Successfully hosted a dynamic CRM/Lead Management System, integrating Django and SQLite3 in the backend for optimal performance. This cutting-edge CRM/Lead management system goes beyond basic functionalities, equipping organizations with powerful tools to qualify, analyze, and nurture incoming leads. Through intricate algorithms and data analytics, the system facilitates the transformation of leads into lucrative business opportunities.",
-    technologies: ["Django", "Python", "Jinja", "Tailwind CSS", "SQLite3", "CRM Systems", "Data Analytics", "Lead Management"]
+    description:
+      "Built and hosted a lead management / CRM web application using Django, Python, Jinja, Tailwind CSS, and SQLite3, with analytics-driven workflows to qualify, analyze, and nurture incoming leads.",
+    technologies: ["Django", "Python", "Jinja", "Tailwind CSS", "SQLite3", "CRM Systems"]
   },
   {
-    id: 4,
-    title: "Javascript Developer",
+    id: 5,
+    title: "JavaScript Developer",
     company: "Foxmula - The Smart Way",
     location: "Bangalore, India",
     period: "Nov 2021 - Jan 2022",
-    description: "Engineered a comprehensive chat application employing socket.io on Node.js—a sophisticated and fully functional Omegle clone crafted explicitly for group conversations. This innovative platform prioritizes user anonymity, providing the unique ability to engage in multiple simultaneous conversations with an expansive and limitless community. Experience seamless and dynamic group interactions, all within a secure and user-friendly environment.",
-    technologies: ["JavaScript", "Node.js", "Socket.IO", "Real-time Communication", "Web Application Development", "Group Chat Systems"]
+    description:
+      "Engineered a real-time group chat application with socket.io on Node.js, supporting anonymous multi-room conversations for concurrent users.",
+    technologies: ["JavaScript", "Node.js", "Socket.IO", "Real-time Communication"]
+  }
+]
+
+const projects = [
+  {
+    id: 1,
+    title: "PricePilot - Intelligent Pricing Dashboard",
+    link: "https://github.com/Tuhin-SnapD/PricePilot-Intelligent-Pricing-Dashboard",
+    description:
+      "Full-stack pricing intelligence platform built with Python, Django, React, and TypeScript, combining demand forecasting, price elasticity, Random Forest optimization, inventory constraints, and A/B simulations to generate data-driven pricing recommendations through REST APIs and interactive analytics.",
+    technologies: ["Python", "Django", "React", "TypeScript", "Random Forest", "REST APIs"]
+  },
+  {
+    id: 2,
+    title: "Fullstack Restaurant App",
+    link: "https://github.com/Tuhin-SnapD/Fullstack-Restaurant-App",
+    description:
+      "Full-stack restaurant management platform using Node.js, Express, MongoDB, React, Angular, and TypeScript, featuring a shared REST API architecture with JWT/OAuth authentication, RBAC, validation, and secure service-driven workflows across multiple frontend clients.",
+    technologies: ["Node.js", "Express", "MongoDB", "React", "Angular", "TypeScript", "JWT/OAuth", "RBAC"]
   }
 ]
 
@@ -54,17 +120,35 @@ const education = [
     school: "Vellore Institute of Technology, Vellore",
     location: "Vellore, India",
     period: "2019 - 2023",
-    description: "CGPA: 8.6. Specialized in Advanced Algorithms, Data Structures, OS, DBMS, Computer Networks, Distributed Systems."
+    description:
+      "GPA: 8.6/10.0 - Merit Holder. Coursework: Advanced Algorithms & Data Structures, Operating Systems, Computer Networks, Distributed Systems, DBMS, Software Engineering."
   }
 ]
 
 const skills = {
-  "Frontend": ["React", "Angular", "JavaScript", "HTML/CSS", "Tailwind CSS", "Bootstrap", "D3.js"],
-  "Backend": ["Python", "C++10", "Node.js", "Django", "Flask", "FastAPI", "Express.js", "Socket.IO", "Tornado"],
-  "AI/ML": ["Machine Learning", "NLP", "PyTorch", "scikit-learn", "spaCy", "BERT", "Transformers", "LLaMA", "TextRank", "BART", "OpenCV", "CNNs", "RNNs", "LSTMs", "Computer Vision", "Deep Learning"],
-  "Data & Analytics": ["Tableau", "Power BI", "Excel VBA", "Power Query", "SQL", "NoSQL", "Data Analytics", "Statistical Analysis"],
-  "DevOps & Tools": ["Docker", "AWS", "MongoDB", "MySQL", "SQLite3", "Git", "CI/CD", "Redis", "Raspberry Pi", "Trading Systems", "Financial APIs"]
+  "Languages": ["Python", "C++", "JavaScript", "SQL", "Perl"],
+  "Frontend": ["React.js", "Vite", "MUI", "Tailwind CSS", "HTML"],
+  "Backend & APIs": ["Django", "Flask", "Tornado", "Gunicorn", "REST APIs", "Microservices"],
+  "Cloud & Infrastructure": ["AWS", "Docker", "Amazon ECR", "Terraform", "Linux"],
+  "Databases & Messaging": ["PostgreSQL", "DynamoDB", "MySQL", "SQLite", "Oracle", "Kafka", "RabbitMQ", "Amazon SQS"],
+  "DevOps & Observability": ["Jenkins", "Signoz", "Elastic", "AutoSys", "CI/CD"],
+  "Engineering": [
+    "Distributed Systems", "API Design", "DSA", "LLD", "HLD", "Testing",
+    "Code Review", "Agile", "Automation", "Mentoring"
+  ]
 }
+
+const achievements = [
+  "Awarded the 2x Global Gold Recognition Award at Bank of America for automating regression and saving license costs using Optimus, bypassing the APEX login dependency.",
+  "Recipient of the VIT University Merit Scholarship for academic performance, 2019-20."
+]
+
+const contactDetails = [
+  { icon: Mail, label: 'Email', value: 'tuhinchakrabarty14@gmail.com', href: 'mailto:tuhinchakrabarty14@gmail.com' },
+  { icon: MapPin, label: 'Location', value: 'Bengaluru, India', href: '#' },
+  { icon: ExternalLink, label: 'GitHub', value: 'github.com/Tuhin-SnapD', href: 'https://github.com/Tuhin-SnapD' },
+  { icon: ExternalLink, label: 'LinkedIn', value: 'linkedin.com/in/tuhin-chakrabarty', href: 'https://www.linkedin.com/in/tuhin-chakrabarty-1074aa19b/' }
+]
 
 export function ResumeContent() {
   const [ref, inView] = useInView({
@@ -83,7 +167,7 @@ export function ResumeContent() {
   }
 
   return (
-    <div ref={ref} className="max-w-4xl mx-auto space-y-12">
+    <div ref={ref} className="max-w-4xl mx-auto space-y-16">
       {/* Download Button */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -101,6 +185,37 @@ export function ResumeContent() {
         </Button>
       </motion.div>
 
+      {/* Professional Summary */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.1 }}
+      >
+        <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
+          <Sparkles className="w-8 h-8 text-primary" />
+          Professional Summary
+        </h2>
+        <Card className="glass-effect">
+          <CardContent className="py-6">
+            <p className="text-muted-foreground leading-relaxed">{summary}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {contactDetails.map((detail) => (
+                <a
+                  key={detail.label}
+                  href={detail.href}
+                  target={detail.href.startsWith('http') ? '_blank' : undefined}
+                  rel={detail.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <detail.icon className="w-4 h-4" />
+                  {detail.value}
+                </a>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
       {/* Experience */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -108,7 +223,7 @@ export function ResumeContent() {
         transition={{ duration: 0.6, delay: 0.2 }}
       >
         <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
-          <Building className="w-8 h-8 text-primary" />
+          <Briefcase className="w-8 h-8 text-primary" />
           Work Experience
         </h2>
         <div className="space-y-6">
@@ -117,16 +232,16 @@ export function ResumeContent() {
               key={job.id}
               initial={{ opacity: 0, x: -50 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
+              transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
             >
               <Card className="glass-effect">
                 <CardHeader>
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
                       <CardTitle className="text-xl font-semibold text-primary">
-                        {job.title}
+                        {job.title}, {job.company}
                       </CardTitle>
-                      <div className="flex items-center gap-4 text-muted-foreground mt-2">
+                      <div className="flex flex-wrap items-center gap-4 text-muted-foreground mt-2">
                         <div className="flex items-center gap-1">
                           <Building className="w-4 h-4" />
                           {job.company}
@@ -144,9 +259,14 @@ export function ResumeContent() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {job.description}
-                  </p>
+                  <ul className="space-y-3">
+                    {job.highlights.map((highlight, highlightIndex) => (
+                      <li key={highlightIndex} className="flex gap-3 text-muted-foreground leading-relaxed">
+                        <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
                   <div className="flex flex-wrap gap-2">
                     {job.technologies.map((tech) => (
                       <Badge key={tech} variant="outline" className="text-xs">
@@ -157,16 +277,69 @@ export function ResumeContent() {
                   {job.awards && (
                     <div className="mt-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
                       <h4 className="font-semibold text-yellow-800 dark:text-yellow-200 mb-2 flex items-center gap-2">
-                        <span className="text-yellow-600">🏆</span>
+                        <Trophy className="w-4 h-4 text-yellow-600" />
                         Awards & Recognition
                       </h4>
-                      {job.awards.map((award, index) => (
-                        <p key={index} className="text-sm text-yellow-700 dark:text-yellow-300">
+                      {job.awards.map((award, awardIndex) => (
+                        <p key={awardIndex} className="text-sm text-yellow-700 dark:text-yellow-300">
                           {award}
                         </p>
                       ))}
                     </div>
                   )}
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Projects */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.4 }}
+      >
+        <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
+          <FolderGit2 className="w-8 h-8 text-primary" />
+          Projects
+        </h2>
+        <div className="space-y-6">
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, x: -50 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
+            >
+              <Card className="glass-effect">
+                <CardHeader>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <CardTitle className="text-xl font-semibold text-primary">
+                      {project.title}
+                    </CardTitle>
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      GitHub
+                    </a>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-muted-foreground leading-relaxed">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.technologies.map((tech) => (
+                      <Badge key={tech} variant="outline" className="text-xs">
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
@@ -190,14 +363,14 @@ export function ResumeContent() {
               key={edu.id}
               initial={{ opacity: 0, x: -50 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
+              transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
             >
               <Card className="glass-effect">
                 <CardHeader>
                   <CardTitle className="text-xl font-semibold text-primary">
                     {edu.degree}
                   </CardTitle>
-                  <div className="flex items-center gap-4 text-muted-foreground mt-2">
+                  <div className="flex flex-wrap items-center gap-4 text-muted-foreground mt-2">
                     <div className="flex items-center gap-1">
                       <Building className="w-4 h-4" />
                       {edu.school}
@@ -227,7 +400,7 @@ export function ResumeContent() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: 1.0 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
       >
         <h2 className="text-3xl font-bold mb-8">Skills & Technologies</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -236,9 +409,9 @@ export function ResumeContent() {
               key={category}
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
+              transition={{ duration: 0.6, delay: 0.9 + index * 0.1 }}
             >
-              <Card className="glass-effect">
+              <Card className="glass-effect h-full">
                 <CardHeader>
                   <CardTitle className="text-lg font-semibold text-primary">
                     {category}
@@ -249,6 +422,85 @@ export function ResumeContent() {
                     {skillList.map((skill) => (
                       <Badge key={skill} variant="secondary" className="text-sm">
                         {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Achievements */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 1.0 }}
+      >
+        <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
+          <Award className="w-8 h-8 text-primary" />
+          Achievements
+        </h2>
+        <div className="space-y-4">
+          {achievements.map((achievement, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 1.1 + index * 0.1 }}
+            >
+              <Card className="glass-effect">
+                <CardContent className="p-4 flex gap-3 items-start">
+                  <Trophy className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
+                  <p className="text-muted-foreground leading-relaxed">{achievement}</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Earlier Experience */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 1.2 }}
+      >
+        <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
+          <Building className="w-8 h-8 text-primary" />
+          Earlier Experience
+        </h2>
+        <div className="space-y-6">
+          {earlierExperience.map((job, index) => (
+            <motion.div
+              key={job.id}
+              initial={{ opacity: 0, x: -50 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: 1.3 + index * 0.1 }}
+            >
+              <Card className="glass-effect">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold text-foreground">
+                    {job.title} · {job.company}
+                  </CardTitle>
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mt-2">
+                    <div className="flex items-center gap-1">
+                      <MapPin className="w-4 h-4" />
+                      {job.location}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4" />
+                      {job.period}
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-muted-foreground leading-relaxed">{job.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {job.technologies.map((tech) => (
+                      <Badge key={tech} variant="outline" className="text-xs">
+                        {tech}
                       </Badge>
                     ))}
                   </div>
@@ -282,7 +534,7 @@ export function ResumeContent() {
                 Send Email
               </Button>
               <Button
-                onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => window.location.href = '/#contact'}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
               >
                 View Contact Form
@@ -293,4 +545,4 @@ export function ResumeContent() {
       </motion.div>
     </div>
   )
-} 
+}

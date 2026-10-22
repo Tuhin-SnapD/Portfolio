@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -6,40 +6,52 @@ import { Toaster } from '@/components/ui/toaster'
 import { Analytics } from '@/components/analytics'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
+import { WebsiteJsonLd } from '@/components/structured-data'
+import {
+  PERSON,
+  SITE_DESCRIPTION,
+  SITE_KEYWORDS,
+  SITE_NAME,
+  SITE_TITLE,
+  SITE_URL,
+  absoluteUrl,
+} from '@/lib/site'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], display: 'swap' })
+
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tuhin-dev.lovable.app'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Tuhin Chakrabarty - Full-Stack Developer | AI/ML Enthusiast',
-    template: '%s | Tuhin Chakrabarty'
+    default: SITE_TITLE,
+    template: '%s | Tuhin Chakrabarty',
   },
-  description: 'Software Engineer at Bank of America, passionate about modern web technologies, AI/ML, and scalable applications. Full-Stack Developer with expertise in React, Angular, Python, and AI/ML.',
-  keywords: ['Full-Stack Developer', 'AI/ML Engineer', 'React', 'Angular', 'Python', 'Machine Learning', 'Bank of America', 'Software Engineer'],
-  authors: [{ name: 'Tuhin Chakrabarty' }],
-  creator: 'Tuhin Chakrabarty',
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: SITE_KEYWORDS,
+  authors: [{ name: PERSON.name, url: SITE_URL }],
+  creator: PERSON.name,
+  publisher: PERSON.name,
+  category: 'technology',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    type: 'website',
+    type: 'profile',
+    firstName: PERSON.givenName,
+    lastName: PERSON.familyName,
+    username: 'Tuhin-SnapD',
     locale: 'en_US',
-    url: 'https://tuhin-dev.lovable.app',
-    title: 'Tuhin Chakrabarty - Full-Stack Developer | AI/ML Enthusiast',
-    description: 'Software Engineer at Bank of America, passionate about modern web technologies, AI/ML, and scalable applications.',
-    siteName: 'Tuhin Chakrabarty Portfolio',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Tuhin Chakrabarty - Full-Stack Developer | AI/ML Enthusiast',
-      },
-    ],
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tuhin Chakrabarty - Full-Stack Developer | AI/ML Enthusiast',
-    description: 'Software Engineer at Bank of America, passionate about modern web technologies, AI/ML, and scalable applications.',
-    images: ['/og-image.jpg'],
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
   robots: {
     index: true,
@@ -52,9 +64,28 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 'your-google-verification-code',
+  verification: googleSiteVerification ? { google: googleSiteVerification } : undefined,
+  icons: {
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+    shortcut: '/icon.svg',
   },
+  manifest: '/manifest.webmanifest',
+  formatDetection: { telephone: false, address: false, email: false },
+  other: {
+    'profile:first_name': PERSON.givenName,
+    'profile:last_name': PERSON.familyName,
+    'profile:username': 'Tuhin-SnapD',
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b0b12' },
+  ],
+  colorScheme: 'light dark',
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
@@ -65,16 +96,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <meta name="theme-color" content="#000000" />
-        <script
-          defer
-          data-domain="yourdomain.com"
-          src="https://plausible.io/js/script.js"
-        />
+        {/* Identity signals: connect this site to the profiles that mention Tuhin. */}
+        <link rel="me" href={PERSON.github} />
+        <link rel="me" href={PERSON.linkedin} />
+        <link rel="me" href={PERSON.hackerrank} />
+        <link rel="author" href={SITE_URL} />
+        <link rel="alternate" type="application/pdf" href={absoluteUrl(PERSON.resume)} title="Tuhin Chakrabarty - Resume (PDF)" />
+        {/* Plausible is injected once by <Analytics /> below - it used to be duplicated here
+            with a placeholder domain, which caused a wasted request on every page load. */}
       </head>
       <body className={`${inter.className} antialiased overflow-x-hidden`}>
+        <WebsiteJsonLd />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -94,4 +126,4 @@ export default function RootLayout({
       </body>
     </html>
   )
-} 
+}

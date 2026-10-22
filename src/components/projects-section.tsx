@@ -13,10 +13,10 @@ const projects = [
   {
     id: 1,
     title: "PricePilot - Intelligent Pricing Dashboard",
-    description: "AI-driven pricing optimization dashboard with ML models and price elasticity forecasting. Features include predictive analytics, real-time pricing recommendations, and comprehensive data visualization.",
-    image: "https://raw.githubusercontent.com/Tuhin-SnapD/PricePilot-Intelligent-Pricing-Dashboard/main/landing.png",
-    technologies: ["Python", "ML", "Flask", "React", "D3.js", "scikit-learn"],
-    category: "ai-ml",
+    description: "Full-stack pricing intelligence platform combining demand forecasting, price elasticity, Random Forest optimization, inventory constraints, and A/B simulations to generate data-driven pricing recommendations through REST APIs and interactive analytics.",
+    image: "/images/projects/pricepilot.webp",
+    technologies: ["Python", "Django", "React", "TypeScript", "Random Forest", "REST APIs"],
+    category: "fullstack",
     liveUrl: "https://github.com/Tuhin-SnapD/PricePilot-Intelligent-Pricing-Dashboard",
     githubUrl: "https://github.com/Tuhin-SnapD/PricePilot-Intelligent-Pricing-Dashboard",
     featured: true
@@ -25,40 +25,40 @@ const projects = [
     id: 2,
     title: "NewsMelt - Advanced News Finder",
     description: "NLP-powered news processing tool with graph-based summarization, topic modeling, and visualization. Uses BERT, spaCy, and NetworkX for advanced text analysis.",
-    image: "https://raw.githubusercontent.com/Tuhin-SnapD/NewsMelt-Advance-News-Finder/main/landing.png",
+    image: "/images/projects/newsmelt.webp",
     technologies: ["Python", "NLP", "NetworkX", "spaCy", "BERT", "PyTorch"],
     category: "ai-ml",
     liveUrl: "https://github.com/Tuhin-SnapD/NewsMelt-Advance-News-Finder",
     githubUrl: "https://github.com/Tuhin-SnapD/NewsMelt-Advance-News-Finder",
-    featured: true
+    featured: false
   },
   {
     id: 3,
     title: "Todos-List - AI-First Task Manager",
     description: "AI-first task manager using LLaMA models and Flask backend for natural language workflow generation. Integrates OpenAI API for intelligent task management.",
-    image: "https://raw.githubusercontent.com/Tuhin-SnapD/Todos-List/main/landing.png",
+    image: "/images/projects/todos-list.webp",
     technologies: ["Python", "LLaMA", "Flask", "React", "OpenAI API"],
     category: "ai-ml",
     liveUrl: "https://github.com/Tuhin-SnapD/Todos-List",
     githubUrl: "https://github.com/Tuhin-SnapD/Todos-List",
-    featured: true
+    featured: false
   },
   {
     id: 4,
     title: "Fullstack Restaurant App",
-    description: "Full-stack restaurant management app with both MERN and MEAN implementations. Features include order management, inventory tracking, and customer analytics.",
-    image: "https://raw.githubusercontent.com/Tuhin-SnapD/Fullstack-Restaurant-App/main/landing.png",
-    technologies: ["MERN Stack", "MEAN Stack", "Docker", "MongoDB", "Express"],
+    description: "Full-stack restaurant management platform featuring a shared REST API architecture with JWT/OAuth authentication, RBAC, validation, and secure service-driven workflows across multiple frontend clients.",
+    image: "/images/projects/fullstack-restaurant-app.webp",
+    technologies: ["Node.js", "Express", "MongoDB", "React", "Angular", "TypeScript", "JWT/OAuth", "RBAC"],
     category: "fullstack",
     liveUrl: "https://github.com/Tuhin-SnapD/Fullstack-Restaurant-App",
     githubUrl: "https://github.com/Tuhin-SnapD/Fullstack-Restaurant-App",
-    featured: false
+    featured: true
   },
   {
     id: 5,
     title: "Real-Time Stock Trading Simulator",
     description: "Real-time stock trading simulator using yfinance with moving average strategy and SQLite logging. Features live market data and trading analytics.",
-    image: "https://raw.githubusercontent.com/Tuhin-SnapD/Real-Time-Stock-Trading-Simulator/main/landing.png",
+    image: "/images/projects/stock-trading-simulator.webp",
     technologies: ["Python", "yfinance", "pandas", "SQLite", "Trading Strategy"],
     category: "ai-ml",
     liveUrl: "https://github.com/Tuhin-SnapD/Real-Time-Stock-Trading-Simulator",
@@ -69,7 +69,7 @@ const projects = [
     id: 6,
     title: "Text Summarization Models",
     description: "Repository of summarization models using BART, TextRank, and other NLP techniques. Comprehensive collection of text processing and summarization algorithms.",
-    image: "https://raw.githubusercontent.com/Tuhin-SnapD/Text-Summarization-Models/main/landing.png",
+    image: "/images/projects/text-summarization.webp",
     technologies: ["Python", "Transformers", "BART", "TextRank", "PyTorch"],
     category: "ai-ml",
     liveUrl: "https://github.com/Tuhin-SnapD/Text-Summarization-Models",
@@ -80,11 +80,8 @@ const projects = [
 
 const categories = [
   { id: 'all', name: 'All Projects' },
-  { id: 'ai-ml', name: 'AI/ML' },
-  { id: 'frontend', name: 'Frontend' },
-  { id: 'backend', name: 'Backend' },
   { id: 'fullstack', name: 'Full Stack' },
-  { id: 'mobile', name: 'Mobile' }
+  { id: 'ai-ml', name: 'AI/ML' }
 ]
 
 export function ProjectsSection() {
@@ -169,6 +166,7 @@ export function ProjectsSection() {
                       alt={project.title}
                       width={400}
                       height={250}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="w-full h-48 object-cover"
                       onError={() => {
                         // Fallback to placeholder if image fails to load

@@ -80,4 +80,16 @@ export const sendEmail = async (formData: {
     console.error('EmailJS Error:', error)
     return { success: false, error }
   }
+}
+
+/**
+ * EmailJS rejects with an EmailJSResponseStatus whose `text` holds the provider's reason
+ * (for example "Gmail_API: Invalid grant. Please reconnect your Gmail account").
+ * Surface that instead of a generic failure so misconfiguration is diagnosable.
+ */
+export const getEmailJsErrorMessage = (error: unknown): string => {
+  if (!error) return ''
+  if (typeof error === 'string') return error
+  const candidate = error as { text?: string; message?: string; status?: number }
+  return (candidate.text || candidate.message || '').trim()
 } 

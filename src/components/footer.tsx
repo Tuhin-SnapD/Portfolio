@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { Github, Linkedin, Twitter, Heart } from 'lucide-react'
 
 // HackerRank icon component
@@ -52,8 +53,8 @@ export function Footer() {
           >
             <h3 className="text-2xl font-bold gradient-text">Tuhin Chakrabarty</h3>
             <p className="text-muted-foreground max-w-md">
-              Full-Stack Developer | AI/ML Engineer | Software Engineer at Bank of America. 
-              Passionate about modern web technologies, machine learning, and scalable applications.
+              Software Engineer 2 at PayU. Building scalable backend and full-stack systems with Python, C++,
+              React, and cloud-native infrastructure.
             </p>
           </motion.div>
 
@@ -67,18 +68,20 @@ export function Footer() {
             <h4 className="font-semibold text-foreground">Quick Links</h4>
             <div className="flex flex-col space-y-2">
               {[
-                { name: 'About', href: '#about' },
-                { name: 'Skills', href: '#skills' },
-                { name: 'Projects', href: '#projects' },
-                { name: 'Contact', href: '#contact' },
+                { name: 'About', href: '/#about' },
+                { name: 'Skills', href: '/#skills' },
+                { name: 'Projects', href: '/#projects' },
+                { name: 'Blog', href: '/blog' },
+                { name: 'Resume', href: '/resume' },
+                { name: 'Contact', href: '/#contact' },
               ].map((link) => (
-                <a
+                <Link
                   key={link.name}
                   href={link.href}
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </div>
           </motion.div>
@@ -96,8 +99,9 @@ export function Footer() {
                 <motion.a
                   key={social.name}
                   href={social.url}
+                  aria-label={`${social.name} profile of Tuhin Chakrabarty`}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer me"
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}

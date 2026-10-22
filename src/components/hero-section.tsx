@@ -101,7 +101,7 @@ export function HeroSection() {
               transition={{ delay: 0.7, duration: 0.5 }}
               className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-semibold text-foreground mb-8 px-4"
             >
-              Full-Stack Developer | AI/ML Engineer | Software Engineer at Bank of America
+              Software Engineer 2 at PayU | Backend &amp; Distributed Systems | Full-Stack Developer
             </motion.h2>
 
             {/* Description */}
@@ -111,8 +111,9 @@ export function HeroSection() {
               transition={{ delay: 0.9, duration: 0.5 }}
               className="text-base sm:text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed px-4"
             >
-              Software Engineer at Bank of America, passionate about modern web technologies, AI/ML, and scalable applications. 
-              From basic Python projects to advanced AI-driven solutions like PricePilot and NewsMelt, demonstrating continuous growth and innovation in full-stack development and machine learning.
+              Software engineer experienced in building scalable backend and full-stack systems with Python, C++, React,
+              Django, Flask, and SQL. Currently leading PRISM 2.0 — a secure, multi-tenant financial intelligence platform
+              at PayU — with a focus on API design, distributed systems, cloud-native delivery, and production reliability.
             </motion.p>
 
             {/* CTA Buttons */}

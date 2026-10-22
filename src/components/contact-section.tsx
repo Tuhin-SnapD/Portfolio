@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send } from 'lucide-react'
 import { toast } from 'react-hot-toast'
-import { initEmailJS, sendEmail } from '@/lib/emailjs'
+import { initEmailJS, sendEmail, getEmailJsErrorMessage, EMAILJS_CONFIG } from '@/lib/emailjs'
 
 // HackerRank icon component
 const HackerRankIcon = ({ className }: { className?: string }) => (
@@ -44,16 +44,16 @@ const contactInfo = [
     link: 'mailto:tuhinchakrabarty14@gmail.com'
   },
   {
-    icon: MapPin,
-    title: 'Location',
-    value: 'GIFT City, India',
-    link: '#'
+    icon: Phone,
+    title: 'Phone',
+    value: '+91 81416 97841',
+    link: 'tel:+918141697841'
   },
   {
     icon: MapPin,
-    title: 'Portfolio-Simplified',
-    value: 'tuhin-dev.lovable.app',
-    link: 'https://tuhin-dev.lovable.app/'
+    title: 'Location',
+    value: 'Bengaluru, India',
+    link: '#'
   }
 ]
 
@@ -110,11 +110,31 @@ export function ContactSection() {
         toast.success('Message sent successfully! I\'ll get back to you soon.')
         reset()
       } else {
-        toast.error('Failed to send message. Please try again.')
+        // Show the real reason (e.g. an expired Gmail grant) instead of a generic error,
+        // and always offer a direct email fallback so the message is not lost.
+        const reason = getEmailJsErrorMessage(result.error)
+        toast.error(
+          ({ id }) => (
+            <span>
+              Couldn&apos;t send the message{reason ? ` — ${reason}` : ''}. Please email me directly at{' '}
+              <a
+                href={`mailto:${EMAILJS_CONFIG.TO_EMAIL}`}
+                className="underline font-medium"
+                onClick={() => toast.dismiss(id)}
+              >
+                {EMAILJS_CONFIG.TO_EMAIL}
+              </a>
+              .
+            </span>
+          ),
+          { duration: 10000 }
+        )
       }
     } catch (error) {
       console.error('Form submission error:', error)
-      toast.error('Failed to send message. Please try again.')
+      toast.error(
+        `Something went wrong. Please email me directly at ${EMAILJS_CONFIG.TO_EMAIL}.`
+      )
     } finally {
       setIsSubmitting(false)
     }
@@ -311,8 +331,9 @@ export function ContactSection() {
                     <span className="font-semibold text-green-600">Available for new projects</span>
                   </div>
                   <p className="text-muted-foreground">
-                    I&apos;m currently working at Bank of America but open to interesting project collaborations, 
-                    open source contributions, and networking opportunities. Let&apos;s connect!
+                    I&apos;m currently a Software Engineer 2 at PayU, building secure, multi-tenant financial platforms.
+                    I&apos;m open to interesting backend and full-stack collaborations, open source contributions, and
+                    networking opportunities. Let&apos;s connect!
                   </p>
                 </CardContent>
               </Card>
