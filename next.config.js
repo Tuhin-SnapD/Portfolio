@@ -2,34 +2,13 @@
 const nextConfig = {
   poweredByHeader: false,
   compress: true,
+  // Every image in this project is already compressed (WebP/JPEG, 28-70 kB).
+  // Netlify's Next runtime rejects /_next/image requests with 400 ("Unable to
+  // optimize image and unable to fallback to upstream image"), which broke the
+  // avatar and project screenshots in production. Serving the files directly is
+  // both reliable and faster: no image function hop, just the CDN.
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'raw.githubusercontent.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'via.placeholder.com',
-        port: '',
-        pathname: '/**',
-      },
-    ],
-    formats: ['image/webp'],
+    unoptimized: true,
   },
   webpack: (config) => {
     config.module.rules.push({
