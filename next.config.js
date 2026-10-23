@@ -29,7 +29,7 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
-    formats: ['image/webp', 'image/avif'],
+    formats: ['image/webp'],
   },
   webpack: (config) => {
     config.module.rules.push({

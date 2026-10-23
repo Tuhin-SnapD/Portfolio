@@ -5,7 +5,7 @@
  * Vercel, Netlify and any self-hosted domain. Set NEXT_PUBLIC_SITE_URL to the
  * production domain to make canonicals, sitemap and JSON-LD point at it.
  */
-const FALLBACK_URL = 'https://tuhin-dev.lovable.app'
+const FALLBACK_URL = 'https://tuhinc-portfolio.netlify.app'
 
 function resolveSiteUrl(): string {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL
