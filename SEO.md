@@ -22,16 +22,28 @@ Everything social networks and search engines read lives in one place: `src/lib/
 
 ## Required before launch
 
-Set the production domain. All canonicals, the sitemap, `robots.txt`, Open Graph URLs and
-JSON-LD are built from it:
+The production site lives at **https://tuhinc-portfolio.netlify.app**. All canonicals, the
+sitemap, `robots.txt`, Open Graph URLs and JSON-LD are built from `NEXT_PUBLIC_SITE_URL`:
 
 ```bash
 # .env.local / Vercel / Netlify environment variables
 NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
-If the variable is unset, the site falls back to `https://tuhin-dev.lovable.app`, and on
-Vercel/Netlify it auto-detects `VERCEL_PROJECT_PRODUCTION_URL` / `URL`.
+If the variable is unset, the site falls back to `https://tuhinc-portfolio.netlify.app`, and
+on Vercel/Netlify it auto-detects `VERCEL_PROJECT_PRODUCTION_URL` / `URL`.
+
+> **Custom domain beats a netlify.app subdomain for a name query.** If you buy
+> `tuhinchakrabarty.com`, point it at Netlify and set `NEXT_PUBLIC_SITE_URL` to it; every
+> canonical, sitemap entry and schema URL updates on the next deploy.
+
+### Images
+
+`next.config.js` sets `images.unoptimized: true`. Netlify's Next runtime answers
+`/_next/image` with HTTP 400 ("Unable to optimize image…"), which left the avatar and
+project screenshots blank in production. All images are already compressed WebP/JPEG
+(28–70 kB), so they are served straight from the CDN — faster and immune to that bug.
+
 
 ## Google Search Console (do this once)
 
@@ -59,3 +71,9 @@ There is another well-indexed person with the same name (an ML researcher). Enti
 disambiguation is handled by: the `Person` schema with `worksFor` PayU, `alumniOf` VIT,
 `address` Bengaluru, and `sameAs` links to your GitHub/LinkedIn/HackerRank, plus the FAQ
 section that spells out "Tuhin Chakrabarty is a software engineer at PayU in Bengaluru".
+
+**Retire the old Lovable deployment.** `https://tuhin-dev.lovable.app` still serves an older
+copy of this portfolio. Two live copies of the same content split ranking signals, and the
+older domain currently has more history. Either shut that deployment down, redirect it to
+`tuhinc-portfolio.netlify.app`, or set its canonical to the Netlify URL.
+
