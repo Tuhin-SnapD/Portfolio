@@ -21,7 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: absoluteUrl('/'),
-      lastModified: posts.length ? newestPost : now,
+      lastModified: now,
       changeFrequency: 'weekly',
       priority: 1,
     },

@@ -8,7 +8,7 @@ export function HeroSection() {
         <div className="grid items-end gap-14 lg:grid-cols-[1.45fr_0.55fr] lg:gap-20">
           <div>
             <p className="eyebrow mb-7">Tuhin Chakrabarty <span className="mx-2 text-muted-foreground">/</span> Software Engineer 2, PayU</p>
-            <h1 className="font-display max-w-4xl text-6xl leading-[0.98] tracking-[-0.06em] sm:text-7xl lg:text-[6.5rem]">
+            <h1 className="font-display max-w-4xl text-6xl leading-[1.1] tracking-[-0.06em] sm:text-7xl lg:text-[6.5rem]">
               I build systems<br className="hidden sm:block" /> that hold up.
             </h1>
             <p className="mt-8 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl">

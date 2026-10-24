@@ -24,16 +24,16 @@ export default function PostOpengraphImage({ params }: { params: { slug: string 
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '72px 80px',
-          background: 'linear-gradient(140deg, #060a18 0%, #121c3d 60%, #241046 100%)',
-          color: '#ffffff',
+          background: '#f9f7f1',
+          color: '#251f1b',
           fontFamily: 'sans-serif',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', fontSize: 24, color: '#a5b4fc', letterSpacing: 2 }}>
+          <div style={{ display: 'flex', fontSize: 24, color: '#a64c31', letterSpacing: 2 }}>
             {category.toUpperCase()}
           </div>
-          <div style={{ display: 'flex', fontSize: 24, color: '#94a3b8' }}>{host}</div>
+          <div style={{ display: 'flex', fontSize: 24, color: '#695f57' }}>{host}</div>
         </div>
 
         <div
@@ -57,8 +57,9 @@ export default function PostOpengraphImage({ params }: { params: { slug: string 
               justifyContent: 'center',
               width: 56,
               height: 56,
-              borderRadius: 28,
-              background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
+              borderRadius: 4,
+              background: '#a64c31',
+              color: '#f9f7f1',
               fontSize: 22,
               fontWeight: 700,
             }}
@@ -67,7 +68,7 @@ export default function PostOpengraphImage({ params }: { params: { slug: string 
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span style={{ fontSize: 26, fontWeight: 600 }}>{PERSON.name}</span>
-            <span style={{ fontSize: 22, color: '#94a3b8' }}>
+            <span style={{ fontSize: 22, color: '#695f57' }}>
               {PERSON.jobTitle} at {PERSON.employer}
             </span>
           </div>

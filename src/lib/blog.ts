@@ -39,9 +39,27 @@ const editCopy = (value: string) => value
   .replace(/\belevate(?:s|d)?\b/gi, 'improve')
   .replace(/\bharness(?:es|ed)?\b/gi, 'use')
   .replace(/\bdelve(?:s|d|ing)?\b/gi, 'examine')
+
+const removeDecorativeEmoji = (value: string) =>
+  value.replace(
+    /(?:[\uD83C-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF])(?:\uFE0F|\uFE0E)?(?:\u200D(?:[\uD83C-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF])(?:\uFE0F|\uFE0E)?)*/g,
+    ''
+  )
+
+const cleanDisplayCopy = (value: string) => removeDecorativeEmoji(editCopy(value))
+
+const oneSentence = (value: string) => {
+  const protectedText = value.replace(
+    /\b(e\.g|i\.e|etc|mr|mrs|ms|dr|vs|u\.s|u\.k)\./gi,
+    '$1\uE000'
+  )
+  const firstSentence = protectedText.match(/^[\s\S]*?[.!?](?=\s|$)/)?.[0] ?? protectedText
+  return firstSentence.replace(/\uE000/g, '.').trim()
+}
+
 const meta = (post: BlogPost): BlogPostMeta => {
   const { content: _content, ...rest } = post
-  return { ...rest, title: editCopy(rest.title), excerpt: editCopy(rest.excerpt) }
+  return { ...rest, title: cleanDisplayCopy(rest.title), excerpt: oneSentence(cleanDisplayCopy(rest.excerpt)) }
 }
 
 export function getAllPosts(): BlogPostMeta[] {
@@ -54,7 +72,9 @@ export function getCategories(): string[] {
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
   const post = posts.find((item) => item.slug === slug)
-  return post ? { ...post, title: editCopy(post.title), excerpt: editCopy(post.excerpt) } : undefined
+  return post
+    ? { ...post, title: cleanDisplayCopy(post.title), excerpt: oneSentence(cleanDisplayCopy(post.excerpt)) }
+    : undefined
 }
 
 export function getRelatedPosts(slug: string, limit = 3): BlogPostMeta[] {
@@ -80,7 +100,7 @@ const isExternal = (url: string) => /^(https?:)?\/\//i.test(url) || url.startsWi
  * samples keep their `<tags>`, `[links](url)` and image syntax intact.
  */
 function mapOutsideCode(markdown: string, transform: (chunk: string) => string): string {
-  const parts = markdown.split(/(^```[\s\S]*?^```|^~~~[\s\S]*?^~~~)/gm)
+  const parts = markdown.split(/(^[ \t]{0,3}(?:```|~~~)[\s\S]*?^[ \t]{0,3}(?:```|~~~)[ \t]*$)/gm)
   return parts.map((part, index) => (index % 2 === 1 ? part : transform(part))).join('')
 }
 
@@ -109,17 +129,57 @@ function absolutizeUrls(markdown: string, repo: string): string {
   })
 }
 
+function normalizeHeadingTitle(rawTitle: string): string {
+  let title = rawTitle.trim().replace(/^\*{1,2}(.+?)\*{1,2}$/, '$1').trim()
+  title = title.replace(/^(?:[^\w\s]+\s*)+/, '').trim()
+  title = title.replace(/^\*{1,2}(.+?)\*{1,2}$/, '$1').trim()
+
+  if (/^(?:core|key|main) features$/i.test(title)) return 'Core workflows'
+  if (/^advanced features$/i.test(title)) return 'Advanced workflows'
+  if (/^features$/i.test(title)) return 'What the project includes'
+  if (/^overview$/i.test(title)) return 'What this project does'
+  if (/^key capabilities$/i.test(title)) return 'What the system can do'
+  if (/^business logic(?: & value proposition)?$/i.test(title)) return 'How the project works'
+  if (/^core business problem$/i.test(title)) return 'The problem this project addresses'
+  if (/^business solution$/i.test(title)) return 'How the project addresses it'
+  if (/^architecture$/i.test(title)) return 'How the system is built'
+  if (/^(?:project|product) overview$/i.test(title)) return 'What this project does'
+  if (/^project structure$/i.test(title)) return 'How files are organized'
+  if (/^technology stack$/i.test(title)) return 'Tools and libraries'
+  if (/^advantages$/i.test(title)) return 'Why this approach helps'
+  if (/^benefits$/i.test(title)) return 'What this improves'
+  if (/^use cases?$/i.test(title)) return 'When to use it'
+  if (/^purpose$/i.test(title)) return 'What the project does'
+  if (/^introduction$/i.test(title)) return 'Project summary'
+  if (/^solution$/i.test(title)) return 'How the project solves it'
+
+  return title
+}
+
+function normalizeHeadings(markdown: string): string {
+  const atxHeadings = markdown.replace(
+    /^([ \t]{0,3}#{1,6}[ \t]+)(.+)$/gm,
+    (_line, prefix: string, rawTitle: string) => `${prefix}${normalizeHeadingTitle(rawTitle)}`
+  )
+
+  return atxHeadings.replace(
+    /^([^\n]+)\n([=-]{2,})[ \t]*$/gm,
+    (_heading, rawTitle: string, underline: string) => `${normalizeHeadingTitle(rawTitle)}\n${underline}`
+  )
+}
+
 /** READMEs are noisy: drop comments, stray HTML and badge-only lines before rendering. */
 function cleanMarkdown(markdown: string): string {
   const normalized = markdown.replace(/\r\n/g, '\n')
-  const cleaned = mapOutsideCode(normalized, (chunk) =>
-    editCopy(chunk)
-      .replace(/^(#{1,4})\s+\*{0,2}Features\*{0,2}\s*$/gim, '$1 Project details')
-      .replace(/^(#{1,4})\s+\*{0,2}Overview\*{0,2}\s*$/gim, '$1 What this project does')
+  const cleaned = mapOutsideCode(normalized, (chunk) => {
+    const prose = removeDecorativeEmoji(editCopy(chunk)).replace(/\bMade with\s+by\b/gi, 'Made by')
+    return normalizeHeadings(prose)
+      .replace(/^(#{1,6}\s+)(?:[^\w\s]+\s*)+\*{0,2}Features\*{0,2}\s*$/gim, '$1What the project includes')
+      .replace(/^(#{1,6}\s+)(?:[^\w\s]+\s*)+\*{0,2}Overview\*{0,2}\s*$/gim, '$1What this project does')
       .replace(/<!--[\s\S]*?-->/g, '')
       .replace(/<[^>]+>/g, '')
       .replace(/^\s*\[!\[[^\]]*\]\([^)]*\)\]\([^)]*\)\s*$/gm, '')
-  )
+  })
   return cleaned.replace(/\n{3,}/g, '\n\n').trim()
 }
 
@@ -137,6 +197,25 @@ export async function markdownToHtml(markdown: string, repo: string): Promise<st
  */
 function addHeadingIds(html: string): string {
   const seen = new Map<string, number>()
+  const legacyAnchors: Record<string, string> = {
+    'what-the-project-includes': 'features',
+    'what-this-project-does': 'overview',
+    'core-workflows': 'core-features',
+    'advanced-workflows': 'advanced-features',
+    'what-the-system-can-do': 'key-capabilities',
+    'how-the-project-works': 'business-logic-value-proposition',
+    'the-problem-this-project-addresses': 'core-business-problem',
+    'how-the-project-addresses-it': 'pricepilots-business-solution',
+    'how-the-system-is-built': 'architecture',
+    'how-files-are-organized': 'project-structure',
+    'tools-and-libraries': 'technology-stack',
+    'why-this-approach-helps': 'advantages',
+    'what-this-improves': 'benefits',
+    'when-to-use-it': 'use-cases',
+    'what-the-project-does': 'purpose',
+    'project-summary': 'introduction',
+    'how-the-project-solves-it': 'solution',
+  }
 
   return html.replace(/<h([1-6])>([\s\S]*?)<\/h\1>/g, (match, level: string, inner: string) => {
     const text = inner
@@ -157,7 +236,10 @@ function addHeadingIds(html: string): string {
     const count = seen.get(base) ?? 0
     seen.set(base, count + 1)
     const id = count === 0 ? base : `${base}-${count}`
+    const legacyId = legacyAnchors[base]
+    const anchor = legacyId && !seen.has(legacyId) ? `<span id="${legacyId}" aria-hidden="true"></span>` : ''
+    if (anchor) seen.set(legacyId, 1)
 
-    return `<h${level} id="${id}">${inner}</h${level}>`
+    return `<h${level} id="${id}">${anchor}${inner}</h${level}>`
   })
 }

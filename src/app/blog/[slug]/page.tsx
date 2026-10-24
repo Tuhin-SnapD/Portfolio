@@ -5,6 +5,28 @@ import { ArrowLeft, ArrowUpRight, Calendar, Clock, FileCode2, Github, Star } fro
 import { getAllPosts, getPostBySlug, getRelatedPosts, markdownToHtml } from '@/lib/blog'
 import { BlogPostingJsonLd, BreadcrumbJsonLd } from '@/components/structured-data'
 
+const MAX_SEARCH_TITLE_LENGTH = 60
+const MAX_SEARCH_DESCRIPTION_LENGTH = 160
+const BRAND_SUFFIX = ' | Tuhin Chakrabarty'
+
+function searchTitle(title: string): string | { absolute: string } {
+  if (title.length + BRAND_SUFFIX.length <= MAX_SEARCH_TITLE_LENGTH) return title
+  const conciseTitle = title.length <= MAX_SEARCH_TITLE_LENGTH
+    ? title
+    : `${title.slice(0, MAX_SEARCH_TITLE_LENGTH - 1).trimEnd()}…`
+  return { absolute: conciseTitle }
+}
+
+function searchDescription(description: string): string {
+  if (description.length <= MAX_SEARCH_DESCRIPTION_LENGTH) return description
+  const excerpt = description.slice(0, MAX_SEARCH_DESCRIPTION_LENGTH - 1)
+  const lastWordBoundary = excerpt.lastIndexOf(' ')
+  const conciseDescription = lastWordBoundary > MAX_SEARCH_DESCRIPTION_LENGTH - 32
+    ? excerpt.slice(0, lastWordBoundary)
+    : excerpt
+  return `${conciseDescription.replace(/[,;:]+$/, '').trimEnd()}…`
+}
+
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }))
 }
@@ -13,13 +35,16 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const post = getPostBySlug(params.slug)
   if (!post) return { title: 'Article not found' }
   const published = new Date(post.date)
+  const title = searchTitle(post.title)
+  const socialTitle = typeof title === 'string' ? title : title.absolute
+  const description = searchDescription(post.excerpt)
   return {
-    title: post.title,
-    description: post.excerpt,
+    title,
+    description,
     keywords: [...post.tags, post.language, post.category, 'Tuhin Chakrabarty'],
     alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: { type: 'article', title: post.title, description: post.excerpt, url: `/blog/${post.slug}`, siteName: 'Tuhin Chakrabarty', publishedTime: published.toISOString(), modifiedTime: published.toISOString(), authors: ['Tuhin Chakrabarty'], tags: post.tags, section: post.category },
-    twitter: { card: 'summary_large_image', title: post.title, description: post.excerpt },
+    openGraph: { type: 'article', title: socialTitle, description, url: `/blog/${post.slug}`, siteName: 'Tuhin Chakrabarty', publishedTime: published.toISOString(), modifiedTime: published.toISOString(), authors: ['Tuhin Chakrabarty'], tags: post.tags, section: post.category },
+    twitter: { card: 'summary_large_image', title: socialTitle, description },
   }
 }
 

@@ -70,18 +70,24 @@ export function websiteSchema(): Json {
         publisher: { '@id': personId },
       },
       personSchema(),
-      {
-        '@type': 'ProfilePage',
-        '@id': `${SITE_URL}/#profilepage`,
-        url: SITE_URL,
-        name: `${PERSON.name} - Software Engineer at ${PERSON.employer}`,
-        description: SITE_DESCRIPTION,
-        isPartOf: { '@id': websiteId },
-        about: { '@id': personId },
-        mainEntity: { '@id': personId },
-      },
     ],
   }
+}
+
+export function ProfilePageJsonLd() {
+  const profilePage: Json = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    '@id': `${SITE_URL}/#profilepage`,
+    url: SITE_URL,
+    name: `${PERSON.name} - Software Engineer at ${PERSON.employer}`,
+    description: SITE_DESCRIPTION,
+    isPartOf: { '@id': websiteId },
+    about: { '@id': personId },
+    mainEntity: { '@id': personId },
+  }
+
+  return <JsonLd data={profilePage} />
 }
 
 export function faqSchema(items: { question: string; answer: string }[]): Json {

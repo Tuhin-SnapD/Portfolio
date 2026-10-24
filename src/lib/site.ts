@@ -40,11 +40,10 @@ export const PERSON = {
 
 export const SITE_NAME = `${PERSON.name} - Software Engineer`
 
-export const SITE_TITLE =
-  'Tuhin Chakrabarty - Software Engineer at PayU | Backend & Distributed Systems'
+export const SITE_TITLE = 'Tuhin Chakrabarty | Software Engineer at PayU'
 
 export const SITE_DESCRIPTION =
-  'Tuhin Chakrabarty is a Software Engineer 2 at PayU in Bengaluru, India. He builds scalable backend and distributed systems with Python, C++, Django, Flask, React, Kafka, and AWS, and leads PRISM 2.0 — a multi-tenant financial intelligence platform.'
+  'Tuhin Chakrabarty is a Software Engineer 2 at PayU in Bengaluru, building backend and distributed systems with Python, C++, Kafka, and AWS.'
 
 export const SITE_KEYWORDS = [
   'Tuhin Chakrabarty',

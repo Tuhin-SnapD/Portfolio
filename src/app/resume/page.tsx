@@ -3,7 +3,7 @@ import { Download, ArrowUpRight } from 'lucide-react'
 import { BreadcrumbJsonLd } from '@/components/structured-data'
 
 export const metadata: Metadata = {
-  title: 'Resume - Tuhin Chakrabarty',
+  title: 'Resume',
   description: 'Experience and selected work by Tuhin Chakrabarty, Software Engineer 2 at PayU in Bengaluru.',
   alternates: { canonical: '/resume' },
 }

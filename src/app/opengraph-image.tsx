@@ -21,8 +21,8 @@ export default function OpengraphImage() {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '72px 80px',
-          background: 'linear-gradient(135deg, #050814 0%, #101a3a 55%, #1b1140 100%)',
-          color: '#ffffff',
+          background: '#f9f7f1',
+          color: '#251f1b',
           fontFamily: 'sans-serif',
         }}
       >
@@ -34,15 +34,16 @@ export default function OpengraphImage() {
               justifyContent: 'center',
               width: 64,
               height: 64,
-              borderRadius: 18,
-              background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
+              borderRadius: 4,
+              background: '#a64c31',
+              color: '#f9f7f1',
               fontSize: 30,
               fontWeight: 700,
             }}
           >
             TC
           </div>
-          <div style={{ display: 'flex', fontSize: 26, color: '#a5b4fc', letterSpacing: 1 }}>
+          <div style={{ display: 'flex', fontSize: 26, color: '#a64c31', letterSpacing: 1 }}>
             {host}
           </div>
         </div>
@@ -51,20 +52,20 @@ export default function OpengraphImage() {
           <div style={{ display: 'flex', fontSize: 84, fontWeight: 700, letterSpacing: -2 }}>
             {PERSON.name}
           </div>
-          <div style={{ display: 'flex', fontSize: 40, color: '#c7d2fe' }}>
+          <div style={{ display: 'flex', fontSize: 40, color: '#a64c31' }}>
             {PERSON.jobTitle} at {PERSON.employer}
           </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', gap: 14, fontSize: 24, color: '#94a3b8' }}>
+          <div style={{ display: 'flex', gap: 14, fontSize: 24, color: '#695f57' }}>
             <span>Backend</span>
             <span>·</span>
             <span>Distributed Systems</span>
             <span>·</span>
             <span>Python · C++ · React</span>
           </div>
-          <div style={{ display: 'flex', fontSize: 24, color: '#94a3b8' }}>{PERSON.location}</div>
+          <div style={{ display: 'flex', fontSize: 24, color: '#695f57' }}>{PERSON.location}</div>
         </div>
       </div>
     ),
