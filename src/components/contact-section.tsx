@@ -1,8 +1,6 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -11,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send } from 'lucide-react'
+import { Mail, Phone, MapPin, Github, Linkedin, Send } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import { initEmailJS, sendEmail, getEmailJsErrorMessage, EMAILJS_CONFIG } from '@/lib/emailjs'
 
@@ -53,7 +51,7 @@ const contactInfo = [
     icon: MapPin,
     title: 'Location',
     value: 'Bengaluru, India',
-    link: '#'
+    link: 'https://maps.google.com/?q=Bengaluru,India'
   }
 ]
 
@@ -62,28 +60,23 @@ const socialLinks = [
     icon: Github,
     name: 'GitHub',
     url: 'https://github.com/Tuhin-SnapD',
-    color: 'hover:text-gray-900 dark:hover:text-white'
+    color: 'hover:text-primary'
   },
   {
     icon: Linkedin,
     name: 'LinkedIn',
     url: 'https://www.linkedin.com/in/tuhin-chakrabarty-1074aa19b/',
-    color: 'hover:text-blue-600'
+    color: 'hover:text-primary'
   },
   {
     icon: HackerRankIcon,
     name: 'HackerRank',
     url: 'https://www.hackerrank.com/profile/tuhinchakrabart1',
-    color: 'hover:text-green-600'
+    color: 'hover:text-primary'
   }
 ]
 
 export function ContactSection() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
-
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
@@ -102,10 +95,10 @@ export function ContactSection() {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
-    
+
     try {
       const result = await sendEmail(data)
-      
+
       if (result.success) {
         toast.success('Message sent successfully! I\'ll get back to you soon.')
         reset()
@@ -141,29 +134,22 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-b from-muted/20 to-background">
+    <section id="contact" className="editorial-rule py-20 sm:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+        <div
+          className="mb-12 max-w-2xl"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Get In <span className="gradient-text">Touch</span>
+          <h2 className="section-heading mb-5">
+            Contact <span className="gradient-text">Tuhin</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Let&apos;s work together to bring your ideas to life
+          <p className="text-lg leading-8 text-muted-foreground">
+            For engineering roles, backend projects, or a good technical conversation, email is the easiest way to reach me.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          <div
           >
             <Card className="glass-effect">
               <CardHeader>
@@ -180,10 +166,10 @@ export function ContactSection() {
                         id="name"
                         {...register('name')}
                         placeholder="Your name"
-                        className={errors.name ? 'border-red-500' : ''}
+                        className={errors.name ? 'border-primary' : ''}
                       />
                       {errors.name && (
-                        <p className="text-sm text-red-500">{errors.name.message}</p>
+                        <p className="text-sm text-primary">{errors.name.message}</p>
                       )}
                     </div>
                     <div className="space-y-2">
@@ -193,10 +179,10 @@ export function ContactSection() {
                         type="email"
                         {...register('email')}
                         placeholder="your.email@example.com"
-                        className={errors.email ? 'border-red-500' : ''}
+                        className={errors.email ? 'border-primary' : ''}
                       />
                       {errors.email && (
-                        <p className="text-sm text-red-500">{errors.email.message}</p>
+                        <p className="text-sm text-primary">{errors.email.message}</p>
                       )}
                     </div>
                   </div>
@@ -207,10 +193,10 @@ export function ContactSection() {
                       id="subject"
                       {...register('subject')}
                       placeholder="What's this about?"
-                      className={errors.subject ? 'border-red-500' : ''}
+                      className={errors.subject ? 'border-primary' : ''}
                     />
                     {errors.subject && (
-                      <p className="text-sm text-red-500">{errors.subject.message}</p>
+                      <p className="text-sm text-primary">{errors.subject.message}</p>
                     )}
                   </div>
 
@@ -221,17 +207,17 @@ export function ContactSection() {
                       {...register('message')}
                       placeholder="Tell me about your project..."
                       rows={6}
-                      className={errors.message ? 'border-red-500' : ''}
+                      className={errors.message ? 'border-primary' : ''}
                     />
                     {errors.message && (
-                      <p className="text-sm text-red-500">{errors.message.message}</p>
+                      <p className="text-sm text-primary">{errors.message.message}</p>
                     )}
                   </div>
 
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                    className="w-full bg-primary text-primary-foreground hover:bg-foreground"
                   >
                     {isSubmitting ? (
                       <div className="flex items-center gap-2">
@@ -248,26 +234,20 @@ export function ContactSection() {
                 </form>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
 
           {/* Contact Information */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
+          <div
             className="space-y-8"
           >
             {/* Contact Info Cards */}
             <div className="space-y-4">
               <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
               {contactInfo.map((info, index) => (
-                <motion.div
+                <div
                   key={info.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
                 >
-                  <Card className="glass-effect hover:shadow-lg transition-shadow">
+                  <Card className="glass-effect transition-shadow">
                     <CardContent className="p-4">
                       <a
                         href={info.link}
@@ -285,62 +265,51 @@ export function ContactSection() {
                       </a>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               ))}
             </div>
 
             {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
+            <div
               className="space-y-4"
             >
               <h3 className="text-2xl font-semibold">Follow Me</h3>
               <div className="flex gap-4">
                 {socialLinks.map((social, index) => (
-                  <motion.a
+                  <a
                     key={social.name}
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={inView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ duration: 0.4, delay: 0.9 + index * 0.1 }}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    className={`p-3 rounded-lg glass-effect transition-all duration-300 ${social.color}`}
+                    className={`inline-flex min-h-12 min-w-12 items-center justify-center border border-border transition-colors duration-300 ${social.color}`}
                   >
                     <social.icon className="w-6 h-6" />
-                  </motion.a>
+                  </a>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             {/* Availability Status */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 1.0 }}
+            <div
               className="space-y-4"
             >
-              <h3 className="text-2xl font-semibold">Availability</h3>
+              <h3 className="text-2xl font-semibold">What I am open to</h3>
               <Card className="glass-effect">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                    <span className="font-semibold text-green-600">Available for new projects</span>
+                    <div className="w-3 h-3 bg-primary rounded-full animate-pulse" />
+                    <span className="font-semibold text-primary">Backend engineering, fintech systems, and thoughtful collaboration</span>
                   </div>
                   <p className="text-muted-foreground">
                     I&apos;m currently a Software Engineer 2 at PayU, building secure, multi-tenant financial platforms.
-                    I&apos;m open to interesting backend and full-stack collaborations, open source contributions, and
-                    networking opportunities. Let&apos;s connect!
+                    I welcome conversations about backend engineering, distributed systems, and fintech software.
                   </p>
                 </CardContent>
               </Card>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   )
-} 
+}

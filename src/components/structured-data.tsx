@@ -144,9 +144,7 @@ export function WebsiteJsonLd() {
   return <JsonLd data={websiteSchema()} />
 }
 
-export function FaqJsonLd({ items }: { items: { question: string; answer: string }[] }) {
-  return <JsonLd data={faqSchema(items)} />
-}
+
 
 export function BreadcrumbJsonLd({ trail }: { trail: { name: string; path: string }[] }) {
   return <JsonLd data={breadcrumbSchema(trail)} />

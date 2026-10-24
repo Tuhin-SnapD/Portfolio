@@ -9,7 +9,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      "rounded-sm border bg-card text-card-foreground",
       className
     )}
     {...props}
@@ -83,7 +83,7 @@ const GlassCard = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "glass-effect rounded-lg border border-white/20 shadow-lg backdrop-blur-md",
+      "glass-effect rounded-sm border border-border",
       className
     )}
     {...props}
@@ -91,4 +91,4 @@ const GlassCard = React.forwardRef<
 ))
 GlassCard.displayName = "GlassCard"
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent, GlassCard } 
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent, GlassCard }

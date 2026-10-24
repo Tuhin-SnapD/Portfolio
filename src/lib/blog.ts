@@ -28,9 +28,20 @@ export type BlogPostMeta = Omit<BlogPost, 'content'>
 
 const posts = (postsData as BlogPost[]).slice().sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0))
 
+const editCopy = (value: string) => value
+  .replace(/\bunlock(?:s|ed|ing)?\b/gi, 'explore')
+  .replace(/\bempower(?:s|ed|ing)?\b/gi, 'help')
+  .replace(/\bseamless(?:ly)?\b/gi, 'direct')
+  .replace(/\bleverage(?:s|d)?\b/gi, 'use')
+  .replace(/\bstreamline(?:s|d|ing)?\b/gi, 'simplify')
+  .replace(/\brobust(?:ly)?\b/gi, 'reliable')
+  .replace(/\bcutting-edge\b/gi, 'current')
+  .replace(/\belevate(?:s|d)?\b/gi, 'improve')
+  .replace(/\bharness(?:es|ed)?\b/gi, 'use')
+  .replace(/\bdelve(?:s|d|ing)?\b/gi, 'examine')
 const meta = (post: BlogPost): BlogPostMeta => {
   const { content: _content, ...rest } = post
-  return rest
+  return { ...rest, title: editCopy(rest.title), excerpt: editCopy(rest.excerpt) }
 }
 
 export function getAllPosts(): BlogPostMeta[] {
@@ -42,7 +53,8 @@ export function getCategories(): string[] {
 }
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
-  return posts.find((post) => post.slug === slug)
+  const post = posts.find((item) => item.slug === slug)
+  return post ? { ...post, title: editCopy(post.title), excerpt: editCopy(post.excerpt) } : undefined
 }
 
 export function getRelatedPosts(slug: string, limit = 3): BlogPostMeta[] {
@@ -101,7 +113,9 @@ function absolutizeUrls(markdown: string, repo: string): string {
 function cleanMarkdown(markdown: string): string {
   const normalized = markdown.replace(/\r\n/g, '\n')
   const cleaned = mapOutsideCode(normalized, (chunk) =>
-    chunk
+    editCopy(chunk)
+      .replace(/^(#{1,4})\s+\*{0,2}Features\*{0,2}\s*$/gim, '$1 Project details')
+      .replace(/^(#{1,4})\s+\*{0,2}Overview\*{0,2}\s*$/gim, '$1 What this project does')
       .replace(/<!--[\s\S]*?-->/g, '')
       .replace(/<[^>]+>/g, '')
       .replace(/^\s*\[!\[[^\]]*\]\([^)]*\)\]\([^)]*\)\s*$/gm, '')

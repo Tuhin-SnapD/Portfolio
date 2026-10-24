@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
@@ -16,8 +15,6 @@ import {
   SITE_URL,
   absoluteUrl,
 } from '@/lib/site'
-
-const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 
@@ -105,7 +102,7 @@ export default function RootLayout({
         {/* Plausible is injected once by <Analytics /> below - it used to be duplicated here
             with a placeholder domain, which caused a wasted request on every page load. */}
       </head>
-      <body className={`${inter.className} antialiased overflow-x-hidden`}>
+      <body className="overflow-x-hidden">
         <WebsiteJsonLd />
         <ThemeProvider
           attribute="class"

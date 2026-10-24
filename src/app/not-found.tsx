@@ -9,13 +9,13 @@ export default function NotFound() {
         <p className="text-muted-foreground max-w-md">
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
-        <Link 
+        <Link
           href="/"
-          className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+          className="inline-flex min-h-11 items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
         >
           Go back home
         </Link>
       </div>
     </div>
   )
-} 
+}

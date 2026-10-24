@@ -1,287 +1,75 @@
 "use client"
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { ExternalLink, Github, Eye } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 
 const projects = [
   {
-    id: 1,
-    title: "PricePilot - Intelligent Pricing Dashboard",
-    description: "Full-stack pricing intelligence platform combining demand forecasting, price elasticity, Random Forest optimization, inventory constraints, and A/B simulations to generate data-driven pricing recommendations through REST APIs and interactive analytics.",
-    image: "/images/projects/pricepilot.webp",
-    technologies: ["Python", "Django", "React", "TypeScript", "Random Forest", "REST APIs"],
-    category: "fullstack",
-    liveUrl: "https://github.com/Tuhin-SnapD/PricePilot-Intelligent-Pricing-Dashboard",
-    githubUrl: "https://github.com/Tuhin-SnapD/PricePilot-Intelligent-Pricing-Dashboard",
-    featured: true
+    title: 'PricePilot',
+    kind: 'Pricing & forecasting',
+    description: 'A pricing dashboard that combines demand forecasts, price elasticity, inventory constraints, and A/B simulations to explain each recommendation.',
+    image: '/images/projects/pricepilot.webp',
+    technologies: 'Python · Django · React · TypeScript',
+    category: 'Product',
+    url: 'https://github.com/Tuhin-SnapD/PricePilot-Intelligent-Pricing-Dashboard',
   },
   {
-    id: 2,
-    title: "NewsMelt - Advanced News Finder",
-    description: "NLP-powered news processing tool with graph-based summarization, topic modeling, and visualization. Uses BERT, spaCy, and NetworkX for advanced text analysis.",
-    image: "/images/projects/newsmelt.webp",
-    technologies: ["Python", "NLP", "NetworkX", "spaCy", "BERT", "PyTorch"],
-    category: "ai-ml",
-    liveUrl: "https://github.com/Tuhin-SnapD/NewsMelt-Advance-News-Finder",
-    githubUrl: "https://github.com/Tuhin-SnapD/NewsMelt-Advance-News-Finder",
-    featured: false
+    title: 'NewsMelt',
+    kind: 'News analysis',
+    description: 'A news research tool that groups related stories and brings topic summaries and network visualisations into one workspace.',
+    image: '/images/projects/newsmelt.webp',
+    technologies: 'Python · spaCy · NetworkX · PyTorch',
+    category: 'Research',
+    url: 'https://github.com/Tuhin-SnapD/NewsMelt-Advance-News-Finder',
   },
-  {
-    id: 3,
-    title: "Todos-List - AI-First Task Manager",
-    description: "AI-first task manager using LLaMA models and Flask backend for natural language workflow generation. Integrates OpenAI API for intelligent task management.",
-    image: "/images/projects/todos-list.webp",
-    technologies: ["Python", "LLaMA", "Flask", "React", "OpenAI API"],
-    category: "ai-ml",
-    liveUrl: "https://github.com/Tuhin-SnapD/Todos-List",
-    githubUrl: "https://github.com/Tuhin-SnapD/Todos-List",
-    featured: false
-  },
-  {
-    id: 4,
-    title: "Fullstack Restaurant App",
-    description: "Full-stack restaurant management platform featuring a shared REST API architecture with JWT/OAuth authentication, RBAC, validation, and secure service-driven workflows across multiple frontend clients.",
-    image: "/images/projects/fullstack-restaurant-app.webp",
-    technologies: ["Node.js", "Express", "MongoDB", "React", "Angular", "TypeScript", "JWT/OAuth", "RBAC"],
-    category: "fullstack",
-    liveUrl: "https://github.com/Tuhin-SnapD/Fullstack-Restaurant-App",
-    githubUrl: "https://github.com/Tuhin-SnapD/Fullstack-Restaurant-App",
-    featured: true
-  },
-  {
-    id: 5,
-    title: "Real-Time Stock Trading Simulator",
-    description: "Real-time stock trading simulator using yfinance with moving average strategy and SQLite logging. Features live market data and trading analytics.",
-    image: "/images/projects/stock-trading-simulator.webp",
-    technologies: ["Python", "yfinance", "pandas", "SQLite", "Trading Strategy"],
-    category: "ai-ml",
-    liveUrl: "https://github.com/Tuhin-SnapD/Real-Time-Stock-Trading-Simulator",
-    githubUrl: "https://github.com/Tuhin-SnapD/Real-Time-Stock-Trading-Simulator",
-    featured: false
-  },
-  {
-    id: 6,
-    title: "Text Summarization Models",
-    description: "Repository of summarization models using BART, TextRank, and other NLP techniques. Comprehensive collection of text processing and summarization algorithms.",
-    image: "/images/projects/text-summarization.webp",
-    technologies: ["Python", "Transformers", "BART", "TextRank", "PyTorch"],
-    category: "ai-ml",
-    liveUrl: "https://github.com/Tuhin-SnapD/Text-Summarization-Models",
-    githubUrl: "https://github.com/Tuhin-SnapD/Text-Summarization-Models",
-    featured: false
-  }
 ]
 
-const categories = [
-  { id: 'all', name: 'All Projects' },
-  { id: 'fullstack', name: 'Full Stack' },
-  { id: 'ai-ml', name: 'AI/ML' }
-]
+const filters = ['All work', 'Product', 'Research']
 
 export function ProjectsSection() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
-  
-  const [activeCategory, setActiveCategory] = useState('all')
-  const [filteredProjects, setFilteredProjects] = useState(projects)
-
-  const filterProjects = (category: string) => {
-    setActiveCategory(category)
-    if (category === 'all') {
-      setFilteredProjects(projects)
-    } else {
-      setFilteredProjects(projects.filter(project => project.category === category))
-    }
-  }
+  const [filter, setFilter] = useState('All work')
+  const visible = filter === 'All work' ? projects : projects.filter((project) => project.category === filter)
 
   return (
-    <section id="projects" className="py-20 bg-gradient-to-b from-background to-muted/20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Featured <span className="gradient-text">Projects</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            A showcase of my recent work and technical expertise
-          </p>
-        </motion.div>
-
-        {/* Filter Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
-        >
-          {categories.map((category) => (
-            <Button
-              key={category.id}
-              variant={activeCategory === category.id ? "default" : "outline"}
-              onClick={() => filterProjects(category.id)}
-              className="transition-all duration-300"
-            >
-              {category.name}
-            </Button>
-          ))}
-        </motion.div>
-
-        {/* Projects Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            transition={{ duration: 0.5 }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-          >
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className="group"
-              >
-                <Card className="glass-effect h-full overflow-hidden hover:shadow-xl transition-all duration-300">
-                  {/* Project Image */}
-                  <div className="relative overflow-hidden" data-project={project.title}>
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      width={400}
-                      height={250}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="w-full h-48 object-cover"
-                      onError={() => {
-                        // Fallback to placeholder if image fails to load
-                        const imageContainer = document.querySelector(`[data-project="${project.title}"]`);
-                        if (imageContainer) {
-                          const imageElement = imageContainer.querySelector('img');
-                          const placeholderElement = imageContainer.querySelector('.placeholder-fallback');
-                          if (imageElement && placeholderElement) {
-                            imageElement.style.display = 'none';
-                            placeholderElement.classList.remove('hidden');
-                          }
-                        }
-                      }}
-                    />
-                    <div className="w-full h-48 bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center hidden placeholder-fallback">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-muted-foreground mb-2">
-                          {project.title.split(' ').slice(0, 2).join(' ')}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          Project Screenshot
-                        </div>
-                      </div>
-                    </div>
-                    {project.featured && (
-                      <Badge className="absolute top-4 left-4 bg-primary">
-                        Featured
-                      </Badge>
-                    )}
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => window.open(project.liveUrl, '_blank')}
-                        className="flex items-center gap-2"
-                      >
-                        <Eye className="w-4 h-4" />
-                        Live
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => window.open(project.githubUrl, '_blank')}
-                        className="flex items-center gap-2"
-                      >
-                        <Github className="w-4 h-4" />
-                        Code
-                      </Button>
-                    </div>
-                  </div>
-
-                  <CardHeader>
-                    <CardTitle className="text-xl font-semibold group-hover:text-primary transition-colors">
-                      {project.title}
-                    </CardTitle>
-                  </CardHeader>
-
-                  <CardContent className="space-y-4">
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {project.description}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech) => (
-                        <Badge key={tech} variant="outline" className="text-xs">
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <div className="flex gap-2 pt-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => window.open(project.liveUrl, '_blank')}
-                        className="flex items-center gap-2 flex-1"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        Live Demo
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => window.open(project.githubUrl, '_blank')}
-                        className="flex items-center gap-2 flex-1"
-                      >
-                        <Github className="w-4 h-4" />
-                        Source Code
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+    <section id="projects" className="editorial-rule py-20 sm:py-28">
+      <div className="section-shell">
+        <div className="flex flex-col justify-between gap-7 border-b border-border pb-8 sm:flex-row sm:items-end">
+          <div>
+            <p className="eyebrow">03 / Selected work</p>
+            <h2 className="section-heading mt-5">Things I have built.</h2>
+          </div>
+          <div className="flex flex-wrap gap-2" aria-label="Filter projects">
+            {filters.map((item) => (
+              <button key={item} type="button" aria-pressed={filter === item} onClick={() => setFilter(item)} className={`min-h-11 px-4 text-sm font-semibold transition-colors ${filter === item ? 'bg-foreground text-background' : 'border border-border hover:border-primary hover:text-primary'}`}>
+                {item}
+              </button>
             ))}
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </div>
 
-        {/* View More Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center mt-12"
-        >
-          <Button
-            size="lg"
-            variant="outline"
-            onClick={() => window.open('https://github.com/Tuhin-SnapD', '_blank')}
-            className="flex items-center gap-2 mx-auto"
-          >
-            <Github className="w-5 h-5" />
-            View More on GitHub
-          </Button>
-        </motion.div>
+        <div className="mt-8 grid gap-x-8 gap-y-12 md:grid-cols-2">
+          {visible.map((project, index) => (
+            <article key={project.title} className={index % 2 === 1 ? 'md:mt-14' : ''}>
+              <a href={project.url} target="_blank" rel="noopener noreferrer" className="group block" aria-label={`View ${project.title} on GitHub`}>
+                <div className="relative aspect-[1.7/1] overflow-hidden bg-secondary">
+                  <Image src={project.image} alt={`${project.title} project interface`} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
+                </div>
+                <div className="mt-5 flex items-start justify-between gap-4">
+                  <div>
+                    <p className="eyebrow">{project.kind}</p>
+                    <h3 className="mt-2 text-3xl">{project.title}</h3>
+                  </div>
+                  <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-primary transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </div>
+                <p className="mt-3 max-w-xl leading-7 text-muted-foreground">{project.description}</p>
+                <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">{project.technologies}</p>
+              </a>
+            </article>
+          ))}
+        </div>
+
       </div>
     </section>
   )
-} 
+}
