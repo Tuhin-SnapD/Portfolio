@@ -4,7 +4,7 @@ import { getAllPosts, getCategories } from '@/lib/blog'
 import { BreadcrumbJsonLd } from '@/components/structured-data'
 
 export const metadata: Metadata = {
-  title: 'Engineering Notes - Tuhin Chakrabarty',
+  title: 'Engineering Notes',
   description: 'Project notes and technical write-ups by Tuhin Chakrabarty on backend engineering, distributed systems, and full-stack development.',
   alternates: { canonical: '/blog' },
 }
