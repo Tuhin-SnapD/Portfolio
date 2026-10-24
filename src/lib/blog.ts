@@ -1,5 +1,6 @@
 import { remark } from 'remark'
 import remarkHtml from 'remark-html'
+import remarkGfm from 'remark-gfm'
 import postsData from '@/data/github-posts.json'
 
 const OWNER = 'Tuhin-SnapD'
@@ -63,6 +64,15 @@ export function getRelatedPosts(slug: string, limit = 3): BlogPostMeta[] {
 const isExternal = (url: string) => /^(https?:)?\/\//i.test(url) || url.startsWith('mailto:') || url.startsWith('#')
 
 /**
+ * Applies `transform` to prose only, leaving fenced code blocks untouched so code
+ * samples keep their `<tags>`, `[links](url)` and image syntax intact.
+ */
+function mapOutsideCode(markdown: string, transform: (chunk: string) => string): string {
+  const parts = markdown.split(/(^```[\s\S]*?^```|^~~~[\s\S]*?^~~~)/gm)
+  return parts.map((part, index) => (index % 2 === 1 ? part : transform(part))).join('')
+}
+
+/**
  * READMEs reference images and files with repo-relative paths (`landing.png`, `./docs/x.md`).
  * Those break on the site, so rewrite them to raw.githubusercontent.com / github.com URLs.
  */
@@ -72,36 +82,68 @@ function absolutizeUrls(markdown: string, repo: string): string {
   const toBlob = (path: string) =>
     `https://github.com/${OWNER}/${repo}/blob/HEAD/${path.replace(/^\.?\//, '')}`
 
-  const withImages = markdown.replace(
-    /(!\[[^\]]*\]\()([^)\s]+)((?:\s+"[^"]*")?\))/g,
-    (match, open: string, url: string, close: string) =>
-      `${open}${isExternal(url) ? url : toRaw(url)}${close}`
-  )
+  return mapOutsideCode(markdown, (chunk) => {
+    const withImages = chunk.replace(
+      /(!\[[^\]]*\]\()([^)\s]+)((?:\s+"[^"]*")?\))/g,
+      (match, open: string, url: string, close: string) =>
+        `${open}${isExternal(url) ? url : toRaw(url)}${close}`
+    )
 
-  return withImages.replace(
-    /(^|[^!])(\[[^\]]*\]\()([^)\s]+)((?:\s+"[^"]*")?\))/g,
-    (match, prefix: string, open: string, url: string, close: string) =>
-      `${prefix}${open}${isExternal(url) ? url : toBlob(url)}${close}`
-  )
+    return withImages.replace(
+      /(^|[^!])(\[[^\]]*\]\()([^)\s]+)((?:\s+"[^"]*")?\))/g,
+      (match, prefix: string, open: string, url: string, close: string) =>
+        `${prefix}${open}${isExternal(url) ? url : toBlob(url)}${close}`
+    )
+  })
 }
 
-/** READMEs are noisy: drop badge-only lines and stray HTML before rendering. */
+/** READMEs are noisy: drop comments, stray HTML and badge-only lines before rendering. */
 function cleanMarkdown(markdown: string): string {
-  return markdown
-    .replace(/\r\n/g, '\n')
-    .replace(/<!--[\s\S]*?-->/g, '')
-    .replace(/<[^>]+>/g, '')
-    .replace(/^\s*\[!\[[^\]]*\]\([^)]*\)\]\([^)]*\)\s*$/gm, '')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim()
+  const normalized = markdown.replace(/\r\n/g, '\n')
+  const cleaned = mapOutsideCode(normalized, (chunk) =>
+    chunk
+      .replace(/<!--[\s\S]*?-->/g, '')
+      .replace(/<[^>]+>/g, '')
+      .replace(/^\s*\[!\[[^\]]*\]\([^)]*\)\]\([^)]*\)\s*$/gm, '')
+  )
+  return cleaned.replace(/\n{3,}/g, '\n\n').trim()
 }
 
 export async function markdownToHtml(markdown: string, repo: string): Promise<string> {
   const prepared = cleanMarkdown(absolutizeUrls(markdown, repo))
-  // remark@15 runs on unified@11, but remark-html@15 still publishes unified@10 types,
-  // so the plugin instance cannot be typed against this processor. The runtime contract
-  // is unchanged; the cast only bridges the two typings.
-  const htmlPlugin = remarkHtml as unknown as Parameters<ReturnType<typeof remark>['use']>[0]
-  const processed = await remark().use(htmlPlugin).process(prepared)
-  return processed.toString()
+  const processed = await remark().use(remarkGfm).use(remarkHtml).process(prepared)
+  return addHeadingIds(processed.toString())
+}
+
+/**
+ * README table-of-contents links point at GitHub anchors (#key-features). The rendered
+ * headings need matching ids, otherwise every TOC link in a long README does nothing.
+ * Slugs follow GitHub's rules closely: strip markup, lowercase, drop punctuation, spaces
+ * to hyphens, and de-duplicate repeats.
+ */
+function addHeadingIds(html: string): string {
+  const seen = new Map<string, number>()
+
+  return html.replace(/<h([1-6])>([\s\S]*?)<\/h\1>/g, (match, level: string, inner: string) => {
+    const text = inner
+      .replace(/<[^>]+>/g, '')
+      .replace(/&[a-z#0-9]+;/gi, ' ')
+      .normalize('NFKD')
+
+    const base =
+      text
+        .normalize('NFKD')
+        // strip combining accents so "Café" and "Cafe" slug the same way
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9\s_-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-') || 'section'
+
+    const count = seen.get(base) ?? 0
+    seen.set(base, count + 1)
+    const id = count === 0 ? base : `${base}-${count}`
+
+    return `<h${level} id="${id}">${inner}</h${level}>`
+  })
 }
